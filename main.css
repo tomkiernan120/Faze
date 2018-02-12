@@ -13,8 +13,23 @@ body, html{
 }
 
 header, main, footer{
+    padding: 5%;
+}
+header, .header, main .main, footer, .footer{
     width: 100%;
     float: left;
     height: auto;
-    padding: 5%;
+}   
+
+header{
+    color: #fff;
+    background: rgba(255, 0, 0, 0.733);
 }
+
+.section{
+    width: 100%;
+    float: left;
+    height: auto;
+    padding: 3% 0;
+}
+
