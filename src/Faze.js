@@ -21,12 +21,28 @@
 
     // Default settings
     var defaults = {
-
+      identifiers: {
+        "ID" : new RegExp( "^#(" + identifier + ")" ),
+        "CLASS": new RegExp( "^\\.(" + identifier + ")" ),
+        "TAG": new RegExp( "^(" + identifier + "|[*])" ),
+        "ATTR": new RegExp( "^" + attributes ),
+        "PSEUDO": new RegExp( "^" + psuedos ), 
+      }
     };
 
     //
     // Methods
     //
+
+
+
+    //
+    // Selectors
+    // 
+
+
+
+
 
     // @todo add plugin methods here
 
@@ -187,11 +203,7 @@
       document.addEventListener("click", eventHandler, false);
     };
 
-    //
-    // Public APIs
-    //
-
-    window.Faze = window.f = Faze;
+    window.Faze = window.F = Faze;
 
     return Faze;
   }
