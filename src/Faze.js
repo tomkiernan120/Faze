@@ -32,8 +32,13 @@
 
     // strings
     Faze.trim = function (string) {
-
+      return string.replace(/\s*$/g, '' );
     }
+
+    Faze.rtrim = (string) => {
+    return string.replace( /^\s*/g, '' );
+    }
+    
 
     // arrays
     Faze.inArray = function (needle, haystack) {
@@ -72,9 +77,46 @@
       return newArray;
     };
 
+    Faze.range = ( min, max, steps ) => {
+      min = min || 0;
+      max = max;
+      steps = steps || 1;
+
+      var numbersArray = [];
+      for (let i = min; i <= max; i += steps) {
+        numbersArray.push( i );
+      }
+
+      return numbersArray;
+    }
+
+    Faze.shuffle = ( array ) => {
+      return array.sort( () => { return Math.random() - 0.5; } );
+    }
+
+    Faze.min = ( array ) => {
+      return Math.min( ...array );
+    }
+
+    Faze.max = ( array ) => {
+      return Math.max( ...array );
+    }
+
+    // Numbers
+    Faze.random = ( range ) => {
+      var max, min;
+      if( typeof( range ) === 'array' ){
+        min = range[0];
+        max = range[range.length - 1];
+      }
+
+      if( min && max ){
+        return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+      }
+    }
 
     // objects
-    Faze.merge = function (obj, src) {
+    Faze.merge = (obj, src) => {
       if (typeof Object.keys !== 'undefined') {
         Object.keys(src).forEach(function (key) {
           obj[key] = src[key]
@@ -134,9 +176,6 @@
       // Merge user options with defaults
       settings = this.merge(defaults, options || {});
 
-      if (window.console) {
-        console.log(settings);
-      }
 
       // Add class to HTML element to activate conditional CSS
       // TODO: Worry about class List
@@ -152,7 +191,7 @@
     // Public APIs
     //
 
-    var F = window.Faze;
+    window.Faze = window.f = Faze;
 
     return Faze;
   }
