@@ -1,97 +1,449 @@
-;(function( root, factory ){
-  'use strict';
+(function(){
 
-  const PluginName = 'Faze';
+    var domReadyStack = [];
 
-  if( typeof define === 'function' && define.amd ) {
-    define( [], factory( PluginName ) );
-  }
-  else if( typeof exports === 'object' ) {
-    module.exports = factory( PluginName );
-  } 
-  else {
-    root[ PluginName ] = factory( PluginName );
-  }
-}( ( window || module || {} ), function( PluginName ) {
-  "use strict";
-
-  const plugin = {};
-
-  let defaults = {
-
-  };
-
-  function Plugin( selector, options ) {
-    plugin.this = this;
-    plugin.name = PluginName;
-    plugin.selector = selector;
-    plugin.defaults = defaults;
-    plugin.options = options;
-
-    plugin.this.initialize();
-  };
-
-  const privateMethod = () => {
-
-  };
-
-  Plugin.prototype = {
-
-    initialize: ( silent = false ) => {
-      plugin.this.destroySilently();
-    },
-
-    destroy: ( silte = false ) => {
-      if( !silent ){
-        plugin.settings.callbackDestroyBefore.call();
-      }
-
-      if( !silent ) {
-        plugin.settings.callbackDestroyAfter.call();
-      }
-    },
-
-    destroySilently: () => {
-      plugin.this.destroy( true );
+    function handleDOmReady(fn) {
+      return document.readyState === 'complete' ? fn.call( document ) : domReadyStack.push( fn );
     }
 
-  };
+    document.addEventListener( 'DOMContentLoaded', function onDOMReady() {
+      document.removeEventListener( 'DOMContentLoaded', onDOMReady );
+      while( domReadyStack.length ) {
+        domReadyStack.shift().call( document );
+      }
+    });
 
-  // var Faze = function( selector, options ) {
-  //   console.log( this );
-  //   this.options = Object.assign( options || {}, defaults );
-  //   this.selector = selector;
-  //   this.find();
-  // }
+    var defaults = {
+      version: "1.0.0"
+    };
 
-  // Faze.prototype.find = () => {}
+    /**
+     * [Faze instance constructor]
+     * @param {Faze} selector [description]
+     */
+    var Faze = function( selector ) {
 
-  // Faze.find = () => {
-  //   if( !Faze.selector ) {
+      if( !(this instanceof Faze) ) {
+        return new Faze( selector );
+      }
 
-  //     // 
+      if( !selector ){
+        return;
+      }
 
-  //   }
-  // }
+      var extended = {};
 
-  // Faze.extend = ( options, extras = {} ) => { return Object.assign( options, extras ) };
+      for( prop in defaults ) {
+        if(Object.prototype.hasOwnProperty.call( defaults, prop ) ) {
+          extended[prop] = defaults[prop];
+          this[prop] = defaults[prop];
+        }
+      }
 
-  // Faze.permutations = arr  => { // TODO: fix little bit buggy
-  //   console.log( arr.length );
-  //   if( arr.length <= 2 ) return arr.length === 2 ? [ arr, [ arr[1], arr[0] ] ] : arr;
-  //   return arr.reduce( ( acc, item, i ) => {
-  //     acc.concat( Faze.permutations( [ ...arr.slice(0, i), ...arr.slice( i + 1 ) ] ).map( val => [ item, ...val ] ), [] );
-  //   })
-  // }
-
-
-  // Faze.donothing = () => {};
-
-
-
-  // window.Faze = window.Fz = Faze;
-
-  return Plugin;
+      this.length = 0;
+      this.nodes  = [];
+      this.events = [];
+      this.cache  = [];
 
 
-}));
+      if( selector instanceof HTMLElement || selector instanceof NodeList ) {
+        this.nodes = seletor.length > 1 ? [].slice.call( selector ) : [ selector ];
+      }
+      else if( typeof selector === 'string' ) {
+        if( selector[0] === '<' && selector[selector.length - 1] === '>' ) {
+          this.nodes = [ createNodeSelector( selector ) ];
+        }
+        else {
+          this.nodes = [].slice.call( document.querySelectorAll( selector ) );
+        }
+      }
+
+      if( this.nodes.length ) {
+        this.length = this.nodes.length;
+        for( var i = 0; i < this.nodes.length; i++ ) {
+          this[i] = this.nodes[i];
+        }
+      }
+    };
+
+    Faze.fn = Faze.prototype;
+    window.Faze = window.fz = Faze;
+
+    // private functions ====================================
+
+    /**
+     * [createNodes - create custom html nodes]
+     * @param  {string} html [html string]
+     * @return {node}      [returns html node]
+     */
+    function createNodes( html ) {
+      var div = document.createElement( 'div' );
+      div.innerHTML = html;
+      return div.firstChild;
+    }
+
+    function class2type() {
+      return {};
+    }
+
+    function isWindow( obj ) {
+      return obj != null && obj === obj.window;
+    }
+
+    function isLikeArray( obj ) {
+      var length = !!obj && obj.length;
+      type = toType( obj );
+      if( typeof obj === "function" || isWindow( obj ) ) {
+        return false;
+      }
+
+      return type === "array" || length === 0 || typeof length === "number" && length > 0 && ( length -1 ) in obj;
+    }
+
+    function toString() {
+      return class2type.toString;
+    }
+
+    function isHTMLElement( option ) {
+      return option instanceof HTMLElement;
+    }
+
+    function isNodeList( options ) {
+      return option instanceof NodeList();
+    }
+
+    function toType( obj ) {
+      if( obj == null ) {
+        return obj + "";
+      }
+
+      return typeof obj === "object" ? 
+        class2type[ toString.call( obj ) ] || "object" :
+        typeof obj;
+    }
+
+    /**
+     * Loop through each element
+     * @param  {Function} callback [callback function]
+     * @return {Faze}            [returns faze instance]
+     */
+    Faze.fn.each = function( callback ) {
+      for( var i = 0; i < this.length; i++ ) {
+        callback.call( this, this[i], i );
+      }
+      return this;
+    } 
+
+    // class helper ======================================
+    Faze.fn.addClass = function( classname ) {
+      this.each( function( item ) {
+        console.log( item );
+        item.classList.add( classname );
+      }); 
+      return this;
+    } 
+
+    Faze.fn.removeClass = function( classname ) {
+      this.each( function( item ) {
+        item.classList.remove( classname );
+      });
+    }
+
+    Faze.fn.hasClass = function( classname ) {
+      var hasClass = false;
+      this.each( function( item ) {
+        hasClass = item.classList.contains( classname );
+      });
+      return hasClass;
+    }
+
+
+    // styling ============================================
+    Faze.fn.css = function( opt1, opt2 ) {
+      if( typeof opt1 === 'string' && typeof opt2 === 'string' ) {
+        this.each( function( item ) {
+          if( null !== item.style[opt1] ) {
+            item.style[opt1] = opt2;
+          }
+        });
+      }
+      else if( typeof opt1 === "object" ) {
+        this.each( function( item ) {
+          Faze( opt1 ).each( function( option, index ) {
+            item.style[index] = option[index];
+          })
+        });
+      }
+    }
+
+    Faze.fn.changeColour = function( color, ammount ) {
+      var useHash = false;
+
+      if( color[0] === '#' ) {
+        color = color.slice( 1 );
+        useHash = true;
+      }
+
+      var num = parseInt( color, 16 );
+
+      var r = ( num >> 16 ) + ammount;
+
+      if( r > 255 ) {
+        r = 255;
+      }
+      else if( r < 0 ) {
+        r = 0;
+      }
+
+      var b = (( num >> 8 ) & 0x00FF ) + ammount;
+
+      if( b > 255 ) {
+        b = 255; 
+      }
+      else if( b < 0 ) {
+        b = 0;
+      }
+
+      var g = (num & 0x0000FF) + ammount;
+
+      if( g > 255 ) {
+        g = 255;
+      }
+      else if( g < 0 ) {
+        g = 0;
+      }
+
+      return ( useHash ? '#' : '' ) + ( g |( b << 8 ) | ( r << 16 ) ).toString( 16 );
+    }
+
+
+    // String =============================================
+    Faze.fn.trim = function( string ) {
+      return string.replace( /\s+/g, '' );
+    }
+
+
+    // array ==============================================
+    Faze.fn.isArray = function( array ) {
+      return [].isArray( array );
+    }
+
+    Faze.fn.inArray = function( value, array ) {
+      if( array && this.isArray( array ) ) {
+        return array.indexOf( value ) > -1;
+      }
+      else if( this.isArray( this.nodes ) ) {
+        return this.nodes.indexOf( value ) > -1; 
+      }
+      return false;
+    } 
+
+    Faze.fn.merge = function( array1, array2 ) {
+      var newArray = array1;
+
+      for( var i = 0; i < array2.length; i++ ) {
+        newArray[i] = array2[i];
+      }
+
+      return newArray;
+    }
+
+    Faze.fn.makeArray = function( opt ) {
+      var ret = [];
+      if( opt != null ) {
+        if( isLikeArray( opt ) ) {
+          this.merge( ret, typeof opt === "string" ? [ opt ] : opt )
+        }
+        else {
+          push.call( ret, opt );
+        }
+      }
+      return ret;
+    }
+
+    Faze.fn.sort = function( array ) {
+      return array.sort( function( a, b ) {
+        return a.toLowerCase().localeCompare( b.toLowerCase() );
+      });
+    }
+
+    Faze.fn.random = function( array ) {
+      return array[ Math.floor( Math.random() * array.length ) ];
+    }
+
+    Faze.fn.flattenArray = function( array ) {
+      if( this.isArray( array ) ) {
+        return array.flat( Infinity );
+      }
+    }
+
+    // Objects ============================================
+    Faze.fn.compare = function( object, propname ) {
+      return object.sort( function( a, b ) {
+        return a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1;
+      }); 
+    }
+
+    Faze.fn.print_r = function( object ) {
+      return JSON.stringify( object, null, '\t' ).replace( /\n/g, '<br/>' ).replace( /\t/g, '&nbsp;&nbsp;&nbsp;' );
+    }
+
+    // Helper ========================================
+    Faze.fn.functionExists = function( functionName ) {
+      return typeof functionName == 'function';
+    }
+
+    Faze.fn.add = function( option ) {
+      if( option instanceof HTMLElement  ) {
+        this[this.length+1] = HTMLElement;
+      }
+      else if( options instanceof NodeList ) {
+        var list = this.merge( this.nodes, NodeList );
+      }
+    }
+
+    Faze.fn.after = function( option ) {
+
+    }
+
+    Faze.fn.append = function( option ) {
+
+    }
+
+    Faze.fn.attr = function( option ) {
+
+    }
+
+    Faze.fn.before = function( option ) {
+
+    } 
+
+    Faze.fn.children = function( option ) {
+      var children = [];
+      this.each( function( item ) {
+        if( item.hasChildNodes() ) {
+          children.push( this.makeArray( item.children ) );
+        }
+      });
+
+      return new Faze( children );
+    }
+
+    Faze.fn.parent = function( option ) {
+
+    }
+
+    Faze.fn.clone = function( option ) {
+
+    }
+
+    Faze.fn.delay = function( option ) {
+
+    }
+
+    Faze.fn.index = function( option ) {
+
+    }
+
+    Faze.fn.fadeIn = function() {
+
+    }
+
+    Faze.fn.fadeOut = function() {
+
+    }
+
+    Faze.fn.toggleFade = function() {
+
+    }
+
+    Faze.fn.html = function( opt ) {
+
+    }
+
+    Faze.fn.text = function( opt ) {
+
+    }
+
+    Faze.fn.isEmptyObject = function( object ) {
+
+    }
+
+    Faze.fn.isNumeric = function( number ) {
+
+    }
+
+    Faze.fn.parseHTML = function() {
+      
+    }
+
+    Faze.fn.unique = function() {
+
+    }
+
+    Faze.fn.next = function() {
+
+    }
+
+    Faze.fn.on = function() {
+
+    }
+
+    Faze.fn.wrap = function() {
+
+    }
+
+    Faze.fn.poll = function( fn, timeout, interval ) {
+      var endTime = Number( new Date() ) + ( timeout || 2000 );
+      interval = interval || fn();
+      var checkCondition = function( resolve, reject ) {
+        var result = fn();
+        if( result ) {
+          resolve( result );
+        }
+        else if( Number( new Date() ) < endTime ) {
+          setTimeout( checkCondition, interval, resolve, reject );
+        }
+        else {
+          reject( new Error( 'Timed out for ' + fn + ': ' + arguments ) );
+        }
+      }
+
+      return new Promise( checkCondition );
+    }
+
+    Faze.fn.once = function( fn, context ) {
+      var result;
+
+      return function() {
+        if( fn ) {
+          result = fn.apply( context || this, arguments );
+        }
+
+        return result;
+      }
+    }
+
+    Faze.fn.debouce = function( func, wait, immediate ) {
+      var timeout;
+      return function() {
+        var context = this, args = arguments;
+        var later = function() {
+          timeout = null;
+          if( !immediate ) {
+            func.apply( context, args );
+          }
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout( timeout );
+        timeout = setTimeout( later, wait );
+        if( callNow ) {
+          func.apply( context, args );
+        }
+      }
+    }
+
+
+    return new Faze();
+
+})();

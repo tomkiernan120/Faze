@@ -1,32 +1,38 @@
-const path = require( "path" );
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require( 'path' );
+const webpack = require( 'webpack' );
+const PACKAGE = require( './package.json' );
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const ClosurePlugin = require('closure-webpack-plugin');
 
 module.exports = {
-    mode: "development",
-    output: {
-      path: path.resolve( __dirname, "./dist" ),
-      filename: "index.js",
-    },
-    module: {
-      rules: [
-        {
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }
-      ]
-    },
-    watch: true,
-    entry: "./src/Faze.js",
-    devServer: {
-      contentBase: path.join( __dirname, "./dist" ),
-      compress: true,
-      port: 9000,
-    },
-    plugins: [ new HtmlWebpackPlugin() ]
-};
+  mode: 'production',
+  entry: './src/faze.js',
+  watch: true,
+  output: {
+    filename: "faze.min.js",
+    path: path.resolve( __dirname, 'dist' ),
+    publicPath: '/'
+  },
+  devServer: {
+    compress: true,
+    port: 8080,
+    open: true,
+    contentBase: './dist/'
+  },
+  // optimization: {
+  //   minimizer: [
+  //     new ClosurePlugin({ mode: 'STANDARD' }, {
+
+  //     })
+  //   ]
+  // },
+  plugins: [
+    // new HtmlWebpackPlugin({
+    //   filename: 'test.html',
+    //   template: 'test/index.html'
+    // }),
+    new webpack.BannerPlugin({
+      banner: 'hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]'
+    }),
+  ]
+}
