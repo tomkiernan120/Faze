@@ -16,6 +16,8 @@
     "babel-minify-webpack-plugin": "^0.3.1",
     "closure-webpack-plugin": "^2.0.1",
     "cypress": "^3.3.1",
+    "eslint": "^5.16.0",
+    "eslint-loader": "^2.1.2",
     "google-closure-compiler": "^20190528.0.0",
     "html-webpack-plugin": "^3.2.0",
     "webpack-dev-server": "^3.7.0"

@@ -33,7 +33,7 @@
 
       var extended = {};
 
-      for( prop in defaults ) {
+      for( var prop in defaults ) {
         if(Object.prototype.hasOwnProperty.call( defaults, prop ) ) {
           extended[prop] = defaults[prop];
           this[prop] = defaults[prop];
@@ -47,11 +47,11 @@
 
 
       if( selector instanceof HTMLElement || selector instanceof NodeList ) {
-        this.nodes = seletor.length > 1 ? [].slice.call( selector ) : [ selector ];
+        this.nodes = selector.length > 1 ? [].slice.call( selector ) : [ selector ];
       }
       else if( typeof selector === 'string' ) {
         if( selector[0] === '<' && selector[selector.length - 1] === '>' ) {
-          this.nodes = [ createNodeSelector( selector ) ];
+          this.nodes = [ createNodes( selector ) ];
         }
         else {
           this.nodes = [].slice.call( document.querySelectorAll( selector ) );
@@ -92,7 +92,7 @@
 
     function isLikeArray( obj ) {
       var length = !!obj && obj.length;
-      type = toType( obj );
+      var type = toType( obj );
       if( typeof obj === "function" || isWindow( obj ) ) {
         return false;
       }
@@ -109,7 +109,7 @@
     }
 
     function isNodeList( options ) {
-      return option instanceof NodeList();
+      return options instanceof NodeList();
     }
 
     function toType( obj ) {
@@ -134,10 +134,14 @@
       return this;
     } 
 
+    Faze.fn.domReady = handleDOmReady;
+
+    Faze.fn.isHTMLElement = isHTMLElement;
+    Faze.fn.isNodeList = isNodeList;
+
     // class helper ======================================
     Faze.fn.addClass = function( classname ) {
       this.each( function( item ) {
-        console.log( item );
         item.classList.add( classname );
       }); 
       return this;
@@ -255,7 +259,7 @@
           this.merge( ret, typeof opt === "string" ? [ opt ] : opt )
         }
         else {
-          push.call( ret, opt );
+          [].push.call( ret, opt );
         }
       }
       return ret;
@@ -297,28 +301,31 @@
       if( option instanceof HTMLElement  ) {
         this[this.length+1] = HTMLElement;
       }
-      else if( options instanceof NodeList ) {
+      else if( option instanceof NodeList ) {
         var list = this.merge( this.nodes, NodeList );
+        for( var i = 0; i < list.length; i++ ) {
+          this[this.length+1] = list[i];
+        }
       }
     }
 
-    Faze.fn.after = function( option ) {
+    // Faze.fn.after = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.append = function( option ) {
+    // Faze.fn.append = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.attr = function( option ) {
+    // Faze.fn.attr = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.before = function( option ) {
+    // Faze.fn.before = function( option ) {
 
-    } 
+    // } 
 
-    Faze.fn.children = function( option ) {
+    Faze.fn.children = function() {
       var children = [];
       this.each( function( item ) {
         if( item.hasChildNodes() ) {
@@ -329,69 +336,69 @@
       return new Faze( children );
     }
 
-    Faze.fn.parent = function( option ) {
+    // Faze.fn.parent = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.clone = function( option ) {
+    // Faze.fn.clone = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.delay = function( option ) {
+    // Faze.fn.delay = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.index = function( option ) {
+    // Faze.fn.index = function( option ) {
 
-    }
+    // }
 
-    Faze.fn.fadeIn = function() {
+    // Faze.fn.fadeIn = function() {
 
-    }
+    // }
 
-    Faze.fn.fadeOut = function() {
+    // Faze.fn.fadeOut = function() {
 
-    }
+    // }
 
-    Faze.fn.toggleFade = function() {
+    // Faze.fn.toggleFade = function() {
 
-    }
+    // }
 
-    Faze.fn.html = function( opt ) {
+    // Faze.fn.html = function( opt ) {
 
-    }
+    // }
 
-    Faze.fn.text = function( opt ) {
+    // Faze.fn.text = function( opt ) {
 
-    }
+    // }
 
-    Faze.fn.isEmptyObject = function( object ) {
+    // Faze.fn.isEmptyObject = function( object ) {
 
-    }
+    // }
 
-    Faze.fn.isNumeric = function( number ) {
+    // Faze.fn.isNumeric = function( number ) {
 
-    }
+    // }
 
-    Faze.fn.parseHTML = function() {
+    // Faze.fn.parseHTML = function() {
       
-    }
+    // }
 
-    Faze.fn.unique = function() {
+    // Faze.fn.unique = function() {
 
-    }
+    // }
 
-    Faze.fn.next = function() {
+    // Faze.fn.next = function() {
 
-    }
+    // }
 
-    Faze.fn.on = function() {
+    // Faze.fn.on = function() {
 
-    }
+    // }
 
-    Faze.fn.wrap = function() {
+    // Faze.fn.wrap = function() {
 
-    }
+    // }
 
     Faze.fn.poll = function( fn, timeout, interval ) {
       var endTime = Number( new Date() ) + ( timeout || 2000 );
@@ -445,5 +452,4 @@
 
 
     return new Faze();
-
 })();
