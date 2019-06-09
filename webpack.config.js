@@ -19,13 +19,18 @@ module.exports = {
     open: true,
     contentBase: './dist/'
   },
-  // optimization: {
-  //   minimizer: [
-  //     new ClosurePlugin({ mode: 'STANDARD' }, {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        excluder: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
 
-  //     })
-  //   ]
-  // },
+        }
+      }
+    ]
+  },
   plugins: [
     // new HtmlWebpackPlugin({
     //   filename: 'test.html',
