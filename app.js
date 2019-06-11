@@ -9,9 +9,10 @@ fz().domReady( function() {
   	fz( '.perspective' ).toggleClass( 'modelview' );
   });
 
- fz( '.perspective.modelview' ).on( 'click', function(e) {
+ fz( document ).on( 'click', function(e) {
+ 		console.log( 'test' );
   	fz( '.perspective' ).toggleClass( 'animate' );
   	fz( '.perspective' ).toggleClass( 'modelview' );
- });
+ }, '.perspective.modelview' );
 
 });

@@ -33,6 +33,8 @@
 
       var extended = {};
 
+      console.log( this );
+
       for( var prop in defaults ) {
         if(Object.prototype.hasOwnProperty.call( defaults, prop ) ) {
           extended[prop] = defaults[prop];
@@ -45,6 +47,7 @@
       this.events = [];
       this.cache  = [];
 
+      console.log( selector );
 
       if( selector instanceof HTMLElement || selector instanceof NodeList ) {
         this.nodes = selector.length > 1 ? [].slice.call( selector ) : [ selector ];
@@ -328,9 +331,13 @@
 
     // }
 
-    // Faze.fn.attr = function( option ) {
-
-    // }
+    Faze.fn.attr = function( options ) {
+      if( !options ) {
+        this.each( function( item ) {
+          return item.attributes;
+        });
+      }
+    }
 
     // Faze.fn.before = function( option ) {
 
@@ -351,9 +358,13 @@
 
     // }
 
-    // Faze.fn.clone = function( option ) {
-
-    // }
+    Faze.fn.clone = function( options ) {
+      var elems = [];
+      this.each( function( item ) {
+        elems.push( item.clone( options ) );
+      });
+      return elems;
+    }
 
     // Faze.fn.delay = function( option ) {
 
@@ -375,21 +386,29 @@
 
     // }
 
-    // Faze.fn.html = function( opt ) {
+    Faze.fn.html = function() {
+      var str = '';
+      this.each( function( item ) {
+        str += item.outerHTML;
+      });
+      return str;
+    }
 
-    // }
-
-    // Faze.fn.text = function( opt ) {
-
-    // }
+    Faze.fn.text = function() {
+      var str = this.html();
+      return str.replace( /<[^>]*>/gm, '' );  
+    }
 
     // Faze.fn.isEmptyObject = function( object ) {
 
     // }
 
-    // Faze.fn.isNumeric = function( number ) {
-
-    // }
+    Faze.fn.isNumeric = function( number ) {
+      if( !( typeof number === "string" ) && !( typeof number === "number" )  ) {
+        return false;
+      }
+      return number.match( /^[\d.]+?/ );
+    }
 
     // Faze.fn.parseHTML = function() {
       
@@ -403,22 +422,34 @@
 
     // }
 
-    Faze.fn.on = function( eventType, callback ) {
+    Faze.fn.on = function( eventType, callback, selector ) {
       var events = eventType.split( ' ' );
 
       for( var i = 0; i < events.length; i++ ) {
         var event = events[i];
 
         this.each( function( item ) {
-          item.addEventListener( event, callback );
+          if( !selector ){
+            item.addEventListener( event, callback );
+          }
+          else {
+            item.addEventListener( event, function(e) {
+              console.log( e );
+            });
+          }
         });
 
       }
     }
 
-    // Faze.fn.wrap = function() {
+    Faze.fn.wrap = function( html ) {
+      var wrapper = createNodes( html );
 
-    // }
+      this.each( function( item ) {
+        item.parentNode.insertBefore( wrapper, item );
+        wrapper.appendChild( item );  
+      });
+    }
 
     Faze.fn.poll = function( fn, timeout, interval ) {
       var endTime = Number( new Date() ) + ( timeout || 2000 );
