@@ -153,6 +153,17 @@
       });
     }
 
+    Faze.fn.toggleClass = function( classname ) {
+      this.each( function( item ) {
+        if( item.classList.contains( classname ) ) {
+          this.removeClass( classname );
+        }
+        else {
+          this.addClass( classname );
+        }
+      });
+    }
+
     Faze.fn.hasClass = function( classname ) {
       var hasClass = false;
       this.each( function( item ) {
@@ -392,9 +403,18 @@
 
     // }
 
-    // Faze.fn.on = function() {
+    Faze.fn.on = function( eventType, callback ) {
+      var events = eventType.split( ' ' );
 
-    // }
+      for( var i = 0; i < events.length; i++ ) {
+        var event = events[i];
+
+        this.each( function( item ) {
+          item.addEventListener( event, callback );
+        });
+
+      }
+    }
 
     // Faze.fn.wrap = function() {
 

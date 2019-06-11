@@ -18,7 +18,41 @@ header{
   padding: 20px 10%;
 }
 
-.banner{
+header .navigation{
+  width: 30px;
+  height: 20px;
+  float: right;
+  cursor: pointer;
+  display: pointer;
+}
+
+header .navigation span{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 2px;
+  background: rgba( 0, 0, 0, 1 );
+}
+
+.logo {
+  float: left;
+}
+
+header .navigation span:nth-child(2) {
+  top: calc( 50% - 1px );
+}
+
+header .navigation span:nth-child(3) {
+  bottom: 0px;
+  top: unset;
+}
+
+body {
+  float: none;
+}
+
+.banner {
   width: 100%;
   float: left;
   height: auto;
@@ -28,7 +62,7 @@ header{
   background: red;
 }
 
-.banner .inner{
+.banner .inner {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -36,7 +70,7 @@ header{
   z-index: 9999999;
 }
 
-.content{
+.content {
   width: 100%;
   float:left;
   height:auto;
@@ -50,64 +84,80 @@ header{
   padding: 0 20%;
 }
 
-.effect-moveleft{
-  background: rgb(128, 23, 23);
+/* Effect Move Left */
+.effect-moveleft {
+  background: #f4f3f1;
 }
 
-.effect-moveleft .container{
+.effect-moveleft .container {
   transition: transform 0.4s;
   transform-origin: 50% 50%;
 }
 
-.effect-moveleft .container::after{
+.effect-moveleft .container::after {
   background: rgba(255,255,255,0.6);
 }
 
-.effect-moveleft.animate .container{
-  transform: translateX( -50% ) rotateY(45deg) translateZ(-50px);
+.effect-moveleft.animate .container {
+  transform: translateX(-50%) rotateY(45deg) translateZ(-50px);
 }
 
-.no-csstransform3d .effect-moveleft.animate .container {
+/* Fallback */
+.no-csstransforms3d .effect-moveleft.animate .container {
   left: -75%;
 }
 
+/* Navigation */
 .effect-moveleft .outer-nav a {
-  color: white;
+  color: #e86a32;
   opacity: 0;
   transform: translateX(100px) translateZ(-1000px);
-  transition: transform 0.4s, opacity 0.4s
+  transition: transform 0.4s, opacity 0.4s;
 }
 
-.effect-moveleft .outer-nav a:hover{
+.effect-moveleft .outer-nav a:hover {
   color: #333;
 }
 
 .effect-moveleft.animate .outer-nav a {
   opacity: 1;
-  transform: translateX(0), 
+  transform: translateX(0) translateZ(0);
 }
 
 .effect-moveleft.animate .outer-nav a:nth-child(2) {
-	transition-delay: 0.04s;
+  transition-delay: 0.04s;
 }
 
 .effect-moveleft.animate .outer-nav a:nth-child(3) {
-	transition-delay: 0.08s;
+  transition-delay: 0.08s;
 }
 
 .effect-moveleft.animate .outer-nav a:nth-child(4) {
-	transition-delay: 0.12s;
+  transition-delay: 0.12s;
 }
 
 .effect-moveleft.animate .outer-nav a:nth-child(5) {
-	transition-delay: 0.16s;
+  transition-delay: 0.16s;
 }
 
 .effect-moveleft.animate .outer-nav a:nth-child(6) {
-	transition-delay: 0.2s;
+  transition-delay: 0.2s;
 }
 
 .effect-moveleft.animate .outer-nav a:nth-child(7) {
-	transition-delay: 0.24s;
+  transition-delay: 0.24s;
+}
+
+
+nav.outer-nav.left.vertical {
+    position: absolute;
+    top: 50%;
+    right: 25%;
+}
+
+.perspective.modelview {
+    position: fixed;
+    -webkit-perspective: 1500px;
+     perspective: 1500px; 
 }
 
