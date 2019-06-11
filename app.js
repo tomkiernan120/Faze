@@ -1,7 +1,9 @@
 fz().domReady( function() {
 
   particlesJS.load( 'particle-js', 'particles.json', function() {
-    console.log( 'callback' );
+    if( window.console ) {
+    	console.log( 'Particles JSON loaded correctly' );
+    }
   });
 
   fz('.navigation').on( 'click', function(e) {

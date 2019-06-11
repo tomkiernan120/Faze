@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>test</title>
-  <script type="text/javascript" src="/src/faze.js"></script>
+  <meta charset="utf-8">
+  <title>QUnit basic example</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
 </head>
 <body>
-  <div class="test"></div>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
+  <script src="../dist/faze.min.js"></script>
   <script>
-    
+ 		QUnit.test( "trim", function( assert ) {
+ 			assert.equal( fz().trim( "asdeargh aefaswegr4" ), "asdearghaefaswegr4", "Trim function working as expected" );
+ 		});
   </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 // const ClosurePlugin = require('closure-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/faze.js',
   watch: true,
   output: {
@@ -30,10 +30,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // new HtmlWebpackPlugin({
-    //   filename: 'test.html',
-    //   template: 'test/index.html'
-    // }),
     new webpack.BannerPlugin({
       banner: 'hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]'
     }),
