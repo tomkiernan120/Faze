@@ -241,7 +241,7 @@
     }
 
 
-    // array ==============================================
+    // Array ==============================================
     Faze.fn.isArray = function( array ) {
       return [].isArray( array );
     }
@@ -422,6 +422,15 @@
 
     // }
 
+    Faze.fn.attempt = function( fn, ...args ) {
+      try{
+        return fn( ...args );
+      }
+      catch( e ) {
+        return e instanceof Error ? e : new Error( e );
+      }
+    }
+
     Faze.fn.on = function( eventType, callback, selector ) {
       var events = eventType.split( ' ' );
 
@@ -481,6 +490,27 @@
         return result;
       }
     }
+
+    Faze.fn.throttle = function( fn, wait ) {
+      var inThrottle, lastFn, lastTime;
+      return function() {
+        var context = this, args = arguments;
+        if( !inThrottle ) {
+          fn.apply( context, args );
+          lastTime = Date.now();
+          inThrottle = true;
+        }
+        else {
+          clearTimeout( lastFn );
+          lastFn = setTimeout( function() {
+            if( Date.now() - lastTime >= wait ) {
+              fn.apply( context, args );
+              lastTime = Date.now();
+            }
+          }, Math.max( wait - ( Date.now() - lastTime ), 0 ) );
+        }
+      };
+    };
 
     Faze.fn.debouce = function( func, wait, immediate ) {
       var timeout;

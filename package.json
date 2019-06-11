@@ -24,7 +24,7 @@
     "webpack-dev-server": "^3.7.0"
   },
   "scripts": {
-    "test": "node ./test",
+    "test": "qunit",
     "build": "webpack",
     "start": "webpack-dev-server",
     "cypress": "./node_modules/.bin/cypress open"

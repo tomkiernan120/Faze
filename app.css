@@ -53,13 +53,25 @@ body {
 }
 
 .banner {
+  color: #fff;
   width: 100%;
   float: left;
   height: auto;
   min-height: calc( 100vh - 56px );
   /* min-height: 100vh; */
   text-align: center;
+  background: #6f1616;
+}
+
+button{
+  color: inherit;
+  border: 0;
+  outline: 0;
+  background: inherit;
+  cursor: pointer;
+  padding: 8px 12px;
   background: red;
+  border-radius: 16px;
 }
 
 .banner .inner {
