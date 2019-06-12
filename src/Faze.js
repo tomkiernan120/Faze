@@ -33,8 +33,6 @@
 
       var extended = {};
 
-      console.log( this );
-
       for( var prop in defaults ) {
         if(Object.prototype.hasOwnProperty.call( defaults, prop ) ) {
           extended[prop] = defaults[prop];
@@ -47,10 +45,12 @@
       this.events = [];
       this.cache  = [];
 
-      console.log( selector );
-
       if( selector instanceof HTMLElement || selector instanceof NodeList ) {
         this.nodes = selector.length > 1 ? [].slice.call( selector ) : [ selector ];
+      }
+      else if( typeof selector === "object" && selector.toString() === "[object HTMLDocument]" ) {
+        this.nodes = [ selector ];
+        this.length = 1;
       }
       else if( typeof selector === 'string' ) {
         if( selector[0] === '<' && selector[selector.length - 1] === '>' ) {
@@ -169,8 +169,14 @@
 
     Faze.fn.hasClass = function( classname ) {
       var hasClass = false;
+      var useMatch = classname.split( /[.#:~*]/ ).length > 1 ? true : false;
       this.each( function( item ) {
-        hasClass = item.classList.contains( classname );
+        if( useMatch ) {
+          hasClass = item.matches( classname );
+        }
+        else {
+          hasClass = item.classList.contains( classname );
+        }
       });
       return hasClass;
     }
@@ -443,7 +449,9 @@
           }
           else {
             item.addEventListener( event, function(e) {
-              console.log( e );
+              if( e.target && Faze( e.target ).hasClass( selector ) ) {
+                callback.call( this, e );
+              }
             });
           }
         });
