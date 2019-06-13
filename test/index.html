@@ -11,9 +11,44 @@
   <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
   <script src="../dist/faze.min.js"></script>
   <script>
- 		QUnit.test( "trim", function( assert ) {
- 			assert.equal( fz().trim( "asdeargh aefaswegr4" ), "asdearghaefaswegr4", "Trim function working as expected" );
- 		});
+  	QUnit.module( 'String functions', function() {
+	 		QUnit.test( "trim", function( assert ) {
+	 			assert.equal( fz().trim( "asdeargh aefaswegr4" ), "asdearghaefaswegr4", "Trim function working as expected" );
+	 		});
+	 		QUnit.test( 'Byte Size', function( assert ) {
+	 			assert.notEqual( fz().byteSize( 'testing' ), 12, 'Byte size "testing" is not equal to 12 bytes' );
+	 			assert.equal( fz().byteSize( 'testing' ), 7, 'Byte size "testing" is equal to 7 bytes' );
+	 		});
+	 		QUnit.test( 'Capitalize string', function( assert ) {
+	 			assert.equal( fz().capitalize( 'testString', true ), 'Teststring', 'Capitalize working correctly' ); 
+	 			assert.equal( fz().capitalize( 'testString' ), 'TestString', 'Capitalize working correctly' ); 
+	 		});
+	 		QUnit.test( 'Capitalize words', function( assert ) {
+	 			assert.equal( fz().capitalizeWords( 'test string' ), 'Test String', '"test string" converted successfully to "Test String"' );
+	 		});
+	 		QUnit.test( "Decapitalize words", function( assert ) {
+	 			assert.equal( fz().deCapitalize( 'TestString' ), 'testString', '"TestString" successfully converted to "testString"' );
+	 			assert.equal( fz().deCapitalize( 'TestString', true ), 'tESTSTRING', '"TestString" successfully converted to "tESTSTRING"' );
+	 		})
+	 		QUnit.test( 'Convert string csv to array', function( assert ) {
+	 			var CSV = 'id,name,age,gender\n1,Lawrence,39,M\n2,Oliver,25,M\n3,Roberta,17,F\n4,Bell,70,F\n5,Dalek,12,M\n6,Andrews,10,M\n7,Marty,35,M\n8,Anna Lammas,40,F\n9,Marcos Vinicius,16,M\n10,Lara,32,F';
+	 			assert.deepEqual( fz().csvToArray( CSV ), [ [ "id","name","age","gender" ], ["1","Lawrence","39","M"], ["2","Oliver","25","M"], ["3","Roberta","17","F"], ["4","Bell","70","F"], ["5","Dalek","12","M"], ["6","Andrews","10","M"], ["7","Marty","35","M"], ["8","Anna Lammas","40","F"], ["9","Marcos Vinicius","16","M"], ["10","Lara","32","F"] ], ''+CSV+' is rendered correctly by csvToArray' ); 
+	 		});
+	 		QUnit.test( "convert string csv to JSON", function( assert ) {
+	 			var CSV = 'id,name,age,gender\n1,Lawrence,39,M\n2,Oliver,25,M\n3,Roberta,17,F\n4,Bell,70,F\n5,Dalek,12,M\n6,Andrews,10,M\n7,Marty,35,M\n8,Anna Lammas,40,F\n9,Marcos Vinicius,16,M\n10,Lara,32,F';
+	 			assert.deepEqual( fz().csvToJSON( CSV ), [{id:"1", name:"Lawrence", age:"39", gender:"M"}, {id:"2", name:"Oliver", age:"25", gender:"M"}, {id:"3", name:"Roberta", age:"17", gender:"F"}, {id:"4", name:"Bell", age:"70", gender:"F"}, {id:"5", name:"Dalek", age:"12", gender:"M"}, {id:"6", name:"Andrews", age:"10", gender:"M"}, {id:"7", name:"Marty", age:"35", gender:"M"}, {id:"8", name:"Anna Lammas", age:"40", gender:"F"}, {id:"9", name:"Marcos Vinicius", age:"16", gender:"M"}, {id:"10", name:"Lara", age:"32", gender:"F"}], ''+CSV+' is rendered correctly by csvToJSON' ); 
+	 		});
+	 		QUnit.test( 'Escape HTML String', function( assert ) {
+	 			var html = '<script>alert("test");<\/script>';
+	 			assert.equal( fz().escapeHTML( html ), '&lt;script&gt;alert(&quot;test&quot;);&lt;/script&gt;', 'successfully escapedHTML' );
+	 		});
+  	});
+  	// QUnit.module( 'Array functions' );
+
+  	// QUnit.module( 'Helper functions' );
+
+  	// QUnit.module( 'Object functions' );
   </script>
 </body>
 </html>
+

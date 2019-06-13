@@ -246,6 +246,105 @@
       return string.replace( /\s+/g, '' );
     }
 
+    Faze.fn.byteSize = function( string ) {
+      return new Blob([ string ]).size;
+    }
+
+    Faze.fn.capitalize = function( string, lowerRest ) {
+      return ( string[0].toUpperCase() + ( lowerRest ? string.substr( 1 ).toLowerCase() : string.substr( 1 ) ) );
+    }
+
+
+    Faze.fn.capitalizeWords = function( string ) {
+      return string.replace( /\b[a-z]/g, function( char ) {
+          return char.toUpperCase();
+      });
+    }
+
+    Faze.fn.deCapitalize = function( string, upperRest ) {
+      return string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) );
+    }
+
+    Faze.fn.csvToArray = function( data, delimiter, onmitFirstRow ) {
+      return data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map( function( v ) {
+        return v.split( delimiter ? delimiter : ',' );
+      });
+    }
+
+    Faze.fn.csvToJSON = function( data, delimiter ) {
+      var titles = data.slice( 0, data.indexOf( '\n' ) ).split( delimiter ? delimiter : ',' );
+      return data.slice( data.indexOf( '\n' ) + 1 ).split( '\n' ).map( function( v ) {
+          var values = v.split( delimiter ? delimiter : ',' );
+          return titles.reduce( function( obj, title, index ) {
+              return ( ( obj[title] = values[index] ), obj ) 
+          }, {});
+      });
+    }
+
+    Faze.fn.escapeHTML = function( string ){
+      return string.replace( /[&<>'"]/g, function( tag ) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' } [tag] || tag );
+      });
+    }
+
+    // Faze.fn.escapeRegExp = function( str ) {
+    //   return str.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' );
+    // }
+
+    Faze.fn.fromCalemCase = function( string, seperator ) {
+      return string.replace( /([a-z\d])([A-Z])/g, '$1' + (seperator ? seperator : '_' ) + '$2' ).replace( /([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + ( seperator ? seperator : '_' ) + '$2' ).toLowerCase();
+    }
+
+    Faze.fn.indentString = function( string, count, indent ) {
+      return string.replace( /^/gm, ( indent ? indent : ' ' ).repeat( count ) );
+    }
+
+    Faze.fn.isAnagram = function( str1, str2 ) {
+      var normalize = function( str ) {
+        str.toLowerCase().replace( /[^a-z0-9]/gi, '' ).split('').sort().join('');
+      }
+      return normalize( str1 ) === normalize( str2 );
+    }
+
+    Faze.fn.isLowerCase = function( str ) {
+      return str === str.toLowerCase();
+    }
+
+    Faze.fn.isUpperCase = function( str ) {
+      return str === str.toUpperCase();
+    }
+
+    Faze.fn.mapString = function( str, fn ) {
+      return str.split( '' ).map( function( c, i ) {
+        return fn( c, i, str );
+      }).join('');
+    }
+
+    Faze.fn.mask = function( cc, num, mask ) {
+      return cc.slice( - ( num ? num : 4 ) ).padStart( cc.length, ( mask ? mask : '*' ) );
+    }
+
+    Faze.fn.pad = function( str, length, char ) {
+      return str.padStart( ( str.length + length ) / 2, ( char ? char : ' ' ) ).padEnd( length, ( char ? char : ' ' ) );
+    }
+
+    Faze.fn.pluralize = function( val, word, plural ) {
+      var plural = (plural ? plural : word + 's');
+      var _pluralize = function( num,  word, plural ) {
+        return [ 1, -1 ].includes( Number( num ) ) ? word : plural;
+      }
+      if( typeof val === 'object' ) {
+        return function( num, word ) {
+          return _pluralize( num, word, val[word] );
+        }
+      }
+      return _pluralize( val, word, plural );
+    }
+
+    Faze.fn.removeNonASCII = function( string ) {
+      return string.replace( /[^\x20-\x7E]/g, '' );
+    }
+
 
     // Array ==============================================
     Faze.fn.isArray = function( array ) {
@@ -313,6 +412,17 @@
     }
 
     // Helper ========================================
+    Faze.fn.getType = function( val ) {
+      return val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase();
+    }
+
+    Faze.fn.is = function( type, val ) {
+      return !['',null].includes( val ) && val.constructor === type;
+    }
+
+
+
+
     Faze.fn.functionExists = function( functionName ) {
       return typeof functionName == 'function';
     }
