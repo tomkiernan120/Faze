@@ -2,6 +2,7 @@ const path = require( 'path' );
 const webpack = require( 'webpack' );
 const PACKAGE = require( './package.json' );
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+var StringReplacePlugin = require("string-replace-webpack-plugin");
 // const ClosurePlugin = require('closure-webpack-plugin');
 
 module.exports = {
@@ -26,6 +27,19 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader',
         options: {}
+      },
+      {
+        test: /\.js$/,
+        loader: StringReplacePlugin.replace({
+          replacements: [
+            {
+              pattern: /(\[VERSION\])/,
+              replacement: function( match, p1, offset, string ) {
+                return PACKAGE.version;
+              }
+            }
+          ]
+        })
       }
     ]
   },
@@ -33,5 +47,6 @@ module.exports = {
     new webpack.BannerPlugin({
       banner: 'hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]'
     }),
+    new StringReplacePlugin()
   ]
 }

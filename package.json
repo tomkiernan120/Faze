@@ -1,6 +1,6 @@
 {
   "name": "faze",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "webpack.config.js",
   "directories": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "path": "^0.12.7",
+    "string-replace-webpack-plugin": "^0.1.3",
     "testing": "^1.1.2",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.2"
@@ -15,6 +16,7 @@
   "devDependencies": {
     "babel-minify-webpack-plugin": "^0.3.1",
     "closure-webpack-plugin": "^2.0.1",
+    "copy-webpack-plugin": "^5.0.3",
     "cypress": "^3.3.1",
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.2",
@@ -30,13 +32,13 @@
     "cypress": "./node_modules/.bin/cypress open"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/tkiernan120/Faze.git"
+    "type": "github",
+    "url": "git+https://github.com/tomkiernan120/Faze"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Tom Kiernan",
+  "license": "GPL",
   "bugs": {
-    "url": "https://gitlab.com/tkiernan120/Faze/issues"
+    "url": "https://github.com/tomkiernan120/Faze/issues"
   },
-  "homepage": "https://gitlab.com/tkiernan120/Faze#readme"
+  "homepage": "https://github.com/tomkiernan120/Faze"
 }

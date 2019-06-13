@@ -14,7 +14,7 @@
     });
 
     var defaults = {
-      version: "1.0.0"
+      version: '[VERSION]'
     };
 
     /**
@@ -89,10 +89,20 @@
       return {};
     }
 
+    /**
+     * [ test if node is window ]
+     * @param  {[node]}
+     * @return {Boolean}
+     */
     function isWindow( obj ) {
       return obj != null && obj === obj.window;
     }
 
+    /**
+     * [check if object is array like]
+     * @param  {[type]}
+     * @return {Boolean}
+     */
     function isLikeArray( obj ) {
       var length = !!obj && obj.length;
       var type = toType( obj );
@@ -107,14 +117,28 @@
       return class2type.toString;
     }
 
+    /**
+     * [check if node is htmlelement]
+     * @param  {[node]}
+     * @return {Boolean}
+     */
     function isHTMLElement( option ) {
       return option instanceof HTMLElement;
     }
 
+    /**
+     * [ check if options is NodeList ]
+     * @param  {[HTMLCollection|NodeList]}
+     * @return {Boolean}
+     */
     function isNodeList( options ) {
       return options instanceof NodeList();
     }
 
+    /**
+     * @param  {[Object]}
+     * @return {[type]}
+     */
     function toType( obj ) {
       if( obj == null ) {
         return obj + "";
@@ -137,9 +161,20 @@
       return this;
     } 
 
+    /**
+     * [domReady function]
+     */
     Faze.fn.domReady = handleDOmReady;
 
+    /**
+     * [isHTMLElement function]
+     */
     Faze.fn.isHTMLElement = isHTMLElement;
+
+    /**
+     * [isNodeList function]
+     * @type {Boolean}
+     */
     Faze.fn.isNodeList = isNodeList;
 
     // class helper ======================================
@@ -180,7 +215,6 @@
       });
       return hasClass;
     }
-
 
     // styling ============================================
     Faze.fn.css = function( opt1, opt2 ) {
@@ -287,9 +321,6 @@
       });
     }
 
-    // Faze.fn.escapeRegExp = function( str ) {
-    //   return str.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' );
-    // }
 
     Faze.fn.fromCalemCase = function( string, seperator ) {
       return string.replace( /([a-z\d])([A-Z])/g, '$1' + (seperator ? seperator : '_' ) + '$2' ).replace( /([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + ( seperator ? seperator : '_' ) + '$2' ).toLowerCase();
@@ -329,7 +360,7 @@
     }
 
     Faze.fn.pluralize = function( val, word, plural ) {
-      var plural = (plural ? plural : word + 's');
+      plural = (plural ? plural : word + 's');
       var _pluralize = function( num,  word, plural ) {
         return [ 1, -1 ].includes( Number( num ) ) ? word : plural;
       }
@@ -420,9 +451,6 @@
       return !['',null].includes( val ) && val.constructor === type;
     }
 
-
-
-
     Faze.fn.functionExists = function( functionName ) {
       return typeof functionName == 'function';
     }
@@ -439,14 +467,6 @@
       }
     }
 
-    // Faze.fn.after = function( option ) {
-
-    // }
-
-    // Faze.fn.append = function( option ) {
-
-    // }
-
     Faze.fn.attr = function( options ) {
       if( !options ) {
         this.each( function( item ) {
@@ -454,10 +474,6 @@
         });
       }
     }
-
-    // Faze.fn.before = function( option ) {
-
-    // } 
 
     Faze.fn.children = function() {
       var children = [];
@@ -470,10 +486,6 @@
       return new Faze( children );
     }
 
-    // Faze.fn.parent = function( option ) {
-
-    // }
-
     Faze.fn.clone = function( options ) {
       var elems = [];
       this.each( function( item ) {
@@ -481,26 +493,6 @@
       });
       return elems;
     }
-
-    // Faze.fn.delay = function( option ) {
-
-    // }
-
-    // Faze.fn.index = function( option ) {
-
-    // }
-
-    // Faze.fn.fadeIn = function() {
-
-    // }
-
-    // Faze.fn.fadeOut = function() {
-
-    // }
-
-    // Faze.fn.toggleFade = function() {
-
-    // }
 
     Faze.fn.html = function() {
       var str = '';
@@ -515,28 +507,12 @@
       return str.replace( /<[^>]*>/gm, '' );  
     }
 
-    // Faze.fn.isEmptyObject = function( object ) {
-
-    // }
-
     Faze.fn.isNumeric = function( number ) {
       if( !( typeof number === "string" ) && !( typeof number === "number" )  ) {
         return false;
       }
       return number.match( /^[\d.]+?/ );
     }
-
-    // Faze.fn.parseHTML = function() {
-      
-    // }
-
-    // Faze.fn.unique = function() {
-
-    // }
-
-    // Faze.fn.next = function() {
-
-    // }
 
     Faze.fn.attempt = function( fn, ...args ) {
       try{
