@@ -2,6 +2,12 @@
 
     var domReadyStack = [];
 
+    var isSimple = /^.[^:#[.,]*$/;
+    // var singleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/;
+    // var quickExpr = /^[^<]*(<[\w\W]+>)[^>]*$|^#([\w-]+)$/;
+    // var readyBound = false;
+
+
     function handleDOmReady(fn) {
       return document.readyState === 'complete' ? fn.call( document ) : domReadyStack.push( fn );
     }
@@ -57,7 +63,14 @@
           this.nodes = [ createNodes( selector ) ];
         }
         else {
-          this.nodes = [].slice.call( document.querySelectorAll( selector ) );
+          if( selector.match( isSimple ) ){ 
+            try{
+              this.nodes = [].slice.call( document.querySelectorAll( selector ) );
+            }
+            catch( e ){
+              throw new Error( e );
+            }
+          }
         }
       }
 
@@ -431,6 +444,102 @@
       }
     }
 
+    Faze.fn.all = function( array, fn ) {
+      if( !fn ) {
+        fn = Boolean;
+      }
+      return array.every( fn );
+    }
+
+    Faze.fn.allEqual = function( array ) {
+      return array.every( function( val ) { return val === array[0] } );
+    }
+
+    Faze.fn.any = function( array, fn ) {
+      if( !fn ) {
+        fn = Boolean;
+      }
+      return array.some( fn );
+    }
+
+    Faze.fn.arrayToCSV = function( array, delimiter ) {
+      array.map( function( value ) {
+        return value.map( function( x ) {
+          return (isNaN( x ) ? '"' + x.replace( /"/g, '""' ) + '"' : x ) 
+        } ).join( delimiter ? delimiter : ',' ).join( '\n' );
+      });
+    }
+
+    Faze.fn.chunk = function( array, size ) {
+      Array.from({ length: Math.ceil( array.length / size ) }, function( v, i ) {
+        return array.slice( i * size, i * size, + size );
+      });
+    }
+
+    Faze.fn.filterFalse = function( array ) {
+      return array.filter( Boolean );
+    }
+
+    Faze.fn.difference = function( a, b ) {
+      var s = new Set( b );
+      return a.filter( function( x ) {
+        return !s.has( x );
+      });
+    }
+
+    Faze.fn.differenceBy = function( a, b, fn ) {
+      var s = new Set( b.map( fn ) );
+      return a.map( fn ).filter( function( el ) {
+        return !s.has( el );
+      }); 
+    }
+
+    Faze.fn.fitlerNonUnique = function( array ) {
+      return array.filter( function( i ) {
+        return array.indexOf( i ) === array.lastIndexOf( i );
+      });
+    }
+
+    Faze.fn.findLast = function( array, fn ){
+      return array.filter( fn ).pop();
+    }
+
+    Faze.fn.findLastIndex = function( array, fn ) {
+      return array.map( function( val, i ) {
+        return [ i, val ]; 
+      }).filter( function(  i, val ) {
+        return fn( val, i, array );
+      }).pop()[0];
+    }
+
+    Faze.fn.head = function( array ) {
+      return array[0];
+    }
+
+    Faze.fn.shuffle = function( ...array ) {
+      var m = array.length;
+      while( m ) {
+        var i = Math.floor( Math.random() * m-- );
+        [ array[m], array[i] ] = [ array[i], array[m] ];
+      }
+      return array;
+    }
+
+    Faze.fn.similarity = function( array, values ) {
+      return array.filter( function( v ) {
+        return values.includes( v );
+      });
+    }
+
+    Faze.fn.sortedIndex = function( array, n ) {
+      var isDescending = array[0] > array[ array.length - 1 ];
+      var index = array.findIndex( function( el ) {
+        return ( isDescending ? n >= el : n <= el );
+      });
+      return index === -1 ? array.length : index;
+    }
+
+
     // Objects ============================================
     Faze.fn.compare = function( object, propname ) {
       return object.sort( function( a, b ) {
@@ -623,6 +732,11 @@
           func.apply( context, args );
         }
       }
+    }
+
+    // Date ===========================================
+    Faze.fn.dayOfYear = function( date ){
+      return Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 );
     }
 
 
