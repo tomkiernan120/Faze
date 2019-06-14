@@ -42,8 +42,73 @@
 	 			var html = '<script>alert("test");<\/script>';
 	 			assert.equal( fz().escapeHTML( html ), '&lt;script&gt;alert(&quot;test&quot;);&lt;/script&gt;', 'successfully escapedHTML' );
 	 		});
+	 		QUnit.test( "fromCamelCase", function( assert ) {
+	 			var string = 'camelCase';
+	 			assert.equal( fz().fromCamelCase( string ), 'camel_case', 'Okay' );
+	 			assert.equal( fz().fromCamelCase( string, '-' ), 'camel-case', 'Okay' );
+	 		}); 		
+	 		QUnit.test( "indentString", function( assert ) {
+	 			var string = 'testing';
+	 			assert.equal( fz().indentString( string, 1 ), ' testing', 'Okay' );
+	 			assert.equal( fz().indentString( string, 2 ), '  testing', 'Okay' );
+	 		}) 	
+	 		QUnit.test( "isAnagram", function( assert ) {
+	 			var string1 = 'rail safety';
+	 			var string2 = 'fairy tales';
+	 			assert.ok( fz().isAnagram( string1, string2 ), 'Okay' );
+	 		}); 		
+	 		QUnit.test( "isAnagram", function( assert ) {
+	 			var string1 = 'rail safety';
+	 			var string2 = 'fairy tales';
+	 			assert.ok( fz().isAnagram( string1, string2 ), 'Okay' );
+	 		}); 		
+	 		QUnit.test( "isLowerCase", function( assert ) {
+	 			var lowercasestring = 'rafety';
+	 			var notlowercasestring = 'fairy fSAFE';
+	 			assert.ok( fz().isLowerCase( lowercasestring ), 'Okay' );
+	 			assert.notOk( fz().isLowerCase( notlowercasestring ), 'Okay' );
+	 		}); 		
+	 		QUnit.test( "isUpperCase", function( assert ) {
+	 			var lowercasestring = 'rafety';
+	 			var notlowercasestring = 'AWERGFTEWSARHG';
+	 			assert.notOk( fz().isUpperCase( lowercasestring ), 'Okay' );
+	 			assert.ok( fz().isUpperCase( notlowercasestring ), 'Okay' );
+	 		}); 		
+	 		QUnit.test( "mapString", function( assert ) {
+	 			var string = "test";
+	 			assert.equal( fz().mapString( string, function( c ) { return 't' }), 'tttt', 'Okay' );
+	 		});		
+	 		QUnit.test( "mask", function( assert ) {
+	 			var string = "testing";
+	 			assert.equal( fz().mask( string ), '***ting', 'Okay' );
+	 			assert.equal( fz().mask( string, 10 ), 'testing', 'Okay' );
+	 			// assert.throws( fz().mask( string, 10 ), 'testing', 'Okay' );
+	 		});		
+	 		QUnit.test( "pad", function( assert ) {
+	 			var string = "testing";
+	 			assert.equal( fz().pad( string, 11 ), '  testing  ', 'Okay' );
+	 			// assert.equal( fz().mask( string, 10 ), 'testing', 'Okay' );
+	 			// assert.throws( fz().mask( string, 10 ), 'testing', 'Okay' );
+	 		});		
+	 		QUnit.test( "removeNonASCII", function( assert ) {
+	 			var string = "testing\x20";
+	 			assert.equal( fz().removeNonASCII( string ), 'testing ', 'Okay' );
+	 			// assert.equal( fz().mask( string, 10 ), 'testing', 'Okay' );
+	 			// assert.throws( fz().mask( string, 10 ), 'testing', 'Okay' );
+	 		});
   	});
-  	// QUnit.module( 'Array functions' );
+
+  	QUnit.module( 'Array functions', function( assert ) {	
+  		QUnit.test( 'isArray', function( assert ) {
+  			assert.ok( fz().isArray([]), 'Okay' );
+  		});  		
+  		QUnit.test( 'inArray', function( assert ) {
+  			assert.ok( fz().inArray( 10, [ 12, 11, 10, 9, 8, 7 ]), 'Okay' );
+  		});
+  		QUnit.test( 'makeArray', function( assert ) {
+  			assert.equal( fz().makeArray( 12 ), [12], 'Okay' );
+  		});
+  	});
 
   	// QUnit.module( 'Helper functions' );
 

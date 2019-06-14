@@ -411,7 +411,7 @@
      * @param  {string} seperator seperator you with to use between words (Defaults: _)
      * @return {string}           seperated string
      */
-    Faze.fn.fromCalemCase = function( string, seperator ) {
+    Faze.fn.fromCamelCase = function( string, seperator ) {
       return string.replace( /([a-z\d])([A-Z])/g, '$1' + (seperator ? seperator : '_' ) + '$2' ).replace( /([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + ( seperator ? seperator : '_' ) + '$2' ).toLowerCase();
     }
 
@@ -520,15 +520,14 @@
       return string.replace( /[^\x20-\x7E]/g, '' );
     }
 
-
     // Array ==============================================
     /**
      * check if is array
      * @param  {array}  array value to check
      * @return {Boolean}       
      */
-    Faze.fn.isArray = function( array ) {
-      return [].isArray( array );
+    Faze.fn.isArray = function( array ) { 
+      return Array.isArray( array );
     }
 
     Faze.fn.inArray = function( value, array ) {
@@ -541,8 +540,8 @@
       return false;
     } 
 
-    Faze.fn.merge = function( array1, array2 ) {
-      var newArray = array1;
+    Faze.fn.merge = function( array1, array2 ) { // TODO: needs way more and to be way cleverer that this rubbish
+      var newArray = [];
 
       for( var i = 0; i < array2.length; i++ ) {
         newArray[i] = array2[i];
