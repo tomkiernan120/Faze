@@ -191,6 +191,10 @@
     Faze.fn.isNodeList = isNodeList;
 
     // class helper ======================================
+    /**
+     * [Add a class to DOM Elements]
+     * @param {[string]} classname [string of the classname]
+     */
     Faze.fn.addClass = function( classname ) {
       this.each( function( item ) {
         item.classList.add( classname );
@@ -198,12 +202,20 @@
       return this;
     } 
 
+    /**
+     * [Remove class from DOM Elements]
+     * @param  {[type]} classname [description]
+     */
     Faze.fn.removeClass = function( classname ) {
       this.each( function( item ) {
         item.classList.remove( classname );
       });
     }
 
+    /**
+     * [add or remove classname from DOM Elements]
+     * @param  {[string]} classname [description]
+     */
     Faze.fn.toggleClass = function( classname ) {
       this.each( function( item ) {
         if( item.classList.contains( classname ) ) {
@@ -215,6 +227,11 @@
       });
     }
 
+    /**
+     * [Check if DOM Elements has classname]
+     * @param  {[string]}  classname [classname as string]
+     * @return {Boolean}           
+     */
     Faze.fn.hasClass = function( classname ) {
       var hasClass = false;
       var useMatch = classname.split( /[.#:~*]/ ).length > 1 ? true : false;
@@ -230,6 +247,11 @@
     }
 
     // styling ============================================
+    /**
+     * [Add CSS to a DOM elements]
+     * @param  {[string|object]} opt1 [String for css attribute name | object with css methods]
+     * @param  {[optional|string]} opt2 [string for setting CSS value]
+     */
     Faze.fn.css = function( opt1, opt2 ) {
       if( typeof opt1 === 'string' && typeof opt2 === 'string' ) {
         this.each( function( item ) {
@@ -247,6 +269,12 @@
       }
     }
 
+    /**
+     * [Change color by ammount]
+     * @param  {[string]} color   [hexidecimal or rgb color value]
+     * @param  {[int]} ammount [percentage to change color by]
+     * @return {[string]}         [returns hexidecimnal or rgb]
+     */
     Faze.fn.changeColour = function( color, ammount ) {
       var useHash = false;
 
@@ -289,29 +317,67 @@
 
 
     // String =============================================
+    /**
+     * [Remove all whitespace from a string]
+     * @param  {[string]} string 
+     * @return {[string]}        [return string without whitespace]
+     */
     Faze.fn.trim = function( string ) {
       return string.replace( /\s+/g, '' );
     }
 
+    /**
+     * [Return size of string in bytes]
+     * @param  {[string]} string 
+     * @return {[integer]}        [bytes of string]
+     */
     Faze.fn.byteSize = function( string ) {
       return new Blob([ string ]).size;
     }
 
+    /**
+     * [Capitalize string]
+     * @param  {[string]} string    
+     * @param  {[boolean]} lowerRest [set all other characters to lowercase]
+     * @return {[string]}           
+     */
     Faze.fn.capitalize = function( string, lowerRest ) {
       return ( string[0].toUpperCase() + ( lowerRest ? string.substr( 1 ).toLowerCase() : string.substr( 1 ) ) );
     }
 
-
+    /**
+     * [Capitalize each word]
+     * @param  {[type]} string [description]
+     * @return {[type]}        [description]
+     */
     Faze.fn.capitalizeWords = function( string ) {
       return string.replace( /\b[a-z]/g, function( char ) {
           return char.toUpperCase();
       });
     }
 
+    /**
+     * [DeCapitalize string]
+     * @param  {[string]} string   
+     * @param  {[boolean]} upperRest [Set all other characters to uppercase]
+     * @return {[string]}           [Return decapitalised string]
+     */
     Faze.fn.deCapitalize = function( string, upperRest ) {
       return string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) );
     }
 
+    // TODO: validate CSV data;
+    // Faze.fn.validateCSV = function( data ) {
+
+    // }
+
+    /**
+     * [Convert CSV string to array]
+     * @param  {[string]} data          [CSV string]
+     * @param  {[type]} delimiter     [description]
+     * @param  {[type]} onmitFirstRow [description]
+     * @return {[type]}               [description]
+     */
     Faze.fn.csvToArray = function( data, delimiter, onmitFirstRow ) {
       return data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map( function( v ) {
         return v.split( delimiter ? delimiter : ',' );
@@ -328,21 +394,44 @@
       });
     }
 
+    /**
+     * [escape HTML string for output to client]
+     * @param  {[string]} string [HTML risky string]
+     * @return {[string]}        [returned string with all html elements escaped]
+     */
     Faze.fn.escapeHTML = function( string ){
       return string.replace( /[&<>'"]/g, function( tag ) {
           return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' } [tag] || tag );
       });
     }
 
-
+    /**
+     * Convert camel case to seperated
+     * @param  {string} string    
+     * @param  {string} seperator seperator you with to use between words (Defaults: _)
+     * @return {string}           seperated string
+     */
     Faze.fn.fromCalemCase = function( string, seperator ) {
       return string.replace( /([a-z\d])([A-Z])/g, '$1' + (seperator ? seperator : '_' ) + '$2' ).replace( /([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + ( seperator ? seperator : '_' ) + '$2' ).toLowerCase();
     }
 
+    /**
+     * Indet string at every start of new line
+     * @param  {string} string 
+     * @param  {interget} count  ammount of lines to indent
+     * @param  {string} indent string to use for indent
+     * @return {string}        Indented String
+     */
     Faze.fn.indentString = function( string, count, indent ) {
       return string.replace( /^/gm, ( indent ? indent : ' ' ).repeat( count ) );
     }
 
+    /**
+     * Check if 1 word is an anagram of another
+     * @param  {string}  str1 word to check
+     * @param  {string}  str2 word to check against
+     * @return {boolean}      
+     */
     Faze.fn.isAnagram = function( str1, str2 ) {
       var normalize = function( str ) {
         str.toLowerCase().replace( /[^a-z0-9]/gi, '' ).split('').sort().join('');
@@ -350,28 +439,65 @@
       return normalize( str1 ) === normalize( str2 );
     }
 
+    /**
+     * Check if string is lowercase
+     * @param  {string}  str 
+     * @return {Boolean}    
+     */
     Faze.fn.isLowerCase = function( str ) {
       return str === str.toLowerCase();
     }
 
+    /**
+     * Check if string is uppercase
+     * @param  {string}  str 
+     * @return {Boolean}
+     */
     Faze.fn.isUpperCase = function( str ) {
       return str === str.toUpperCase();
     }
 
+    /**
+     * Run function on every character of a string
+     * @param  {string}   str 
+     * @param  {Function} fn  function callback for each character
+     * @return {string}       Edited string
+     */
     Faze.fn.mapString = function( str, fn ) {
       return str.split( '' ).map( function( c, i ) {
         return fn( c, i, str );
       }).join('');
     }
 
+    /**
+     * Mask a number of characters of a string
+     * @param  {string} cc   string to mask
+     * @param  {interger} num  Number of characters to maske
+     * @param  {string} mask character to use as a mask (Defaults to '*')
+     * @return {string}      
+     */
     Faze.fn.mask = function( cc, num, mask ) {
       return cc.slice( - ( num ? num : 4 ) ).padStart( cc.length, ( mask ? mask : '*' ) );
     }
 
+    /**
+     * Pad a string
+     * @param  {string} str    
+     * @param  {integer} length desired length of string
+     * @param  {string} char   String to use as padding (Defaults to ' ')
+     * @return {string}        Padded string
+     */
     Faze.fn.pad = function( str, length, char ) {
       return str.padStart( ( str.length + length ) / 2, ( char ? char : ' ' ) ).padEnd( length, ( char ? char : ' ' ) );
     }
 
+    /**
+     * Pluralize value
+     * @param  {string} val    String to pluralize
+     * @param  {[type]} word   [description]
+     * @param  {[type]} plural [description]
+     * @return {[type]}        [description]
+     */
     Faze.fn.pluralize = function( val, word, plural ) {
       plural = (plural ? plural : word + 's');
       var _pluralize = function( num,  word, plural ) {
@@ -385,18 +511,28 @@
       return _pluralize( val, word, plural );
     }
 
+    /**
+     * Remove non ASCII characters from string 
+     * @param  {string} string 
+     * @return {string}        String without ASCII characters
+     */
     Faze.fn.removeNonASCII = function( string ) {
       return string.replace( /[^\x20-\x7E]/g, '' );
     }
 
 
     // Array ==============================================
+    /**
+     * check if is array
+     * @param  {array}  array value to check
+     * @return {Boolean}       
+     */
     Faze.fn.isArray = function( array ) {
       return [].isArray( array );
     }
 
     Faze.fn.inArray = function( value, array ) {
-      if( array && this.isArray( array ) ) {
+      if( array && this.isArray( array ) ) {      
         return array.indexOf( value ) > -1;
       }
       else if( this.isArray( this.nodes ) ) {
