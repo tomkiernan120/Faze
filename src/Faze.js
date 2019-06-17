@@ -359,7 +359,7 @@
      * @param  {[boolean]} upperRest [Set all other characters to uppercase]
      * @return {[string]}           [Return decapitalised string]
      */
-    Faze.fn.deCapitalize = ( string, upperRest ) => string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 );
+    Faze.fn.deCapitalize = ( string, upperRest ) => string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) )
 
     // TODO: validate CSV data;
     // Faze.fn.validateCSV = function( data ) {
@@ -586,12 +586,12 @@
     Faze.fn.sort = function( array ) {
       if( this.nodes && this.isArray() ) {
         return this.nodes.sort( function( a, b ) {
-          return a.toLowerCase().localeCompare( b.toLowerCase() ); 
+          return a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() ); 
         });
       }
       else {
         return array.sort( function( a, b ) {
-          return a.toLowerCase().localeCompare( b.toLowerCase() );
+          return a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() );
         });
       }
     }
@@ -644,7 +644,10 @@
      * @return {[type]}       [description]
      */
     Faze.fn.allEqual = function( array ) {
-      return array.every( function( val ) { return val === array[0] } );
+      if( this.nodes ) {
+        return this.nodes.every( val => val === this.nodes[0] );
+      }
+      return array.every( val => val === array[0] );
     }
 
     /**
@@ -1151,6 +1154,16 @@
           }
         });
       }
+      return this;
+    }
+
+
+    Faze.fn.enpty = () => {
+      this.each( item => {
+        if( item instanceof HTMLElement ) {
+          item.innerHTML = '';
+        }
+      });
       return this;
     }
 
