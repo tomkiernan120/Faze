@@ -539,11 +539,18 @@
       }
     }
 
+    /**
+     * check if value is in array
+     * @param  {[type]} value [description]
+     * @optional
+     * @param  {interger|string|boolean|array|object} array Any value that may be in array
+     * @return {boolean}       
+     */
     Faze.fn.inArray = function( value, array ) {
       if( array && this.isArray( array ) ) {      
         return array.indexOf( value ) > -1;
       }
-      else if( this.isArray( this.nodes ) ) {
+      else if( this.isArray() ) {
         return this.nodes.indexOf( value ) > -1; 
       }
       return false;

@@ -105,6 +105,8 @@
   		});  		
   		QUnit.test( 'inArray', function( assert ) {
   			assert.ok( fz().inArray( 10, [ 12, 11, 10, 9, 8, 7 ]), 'Okay' );
+  			assert.ok( fz([ 12, 11, 10, 9, 8, 7 ]).inArray( 10 ), 'Okay' );
+  			assert.notOk( fz([ 12, 11, 10, 9, 8, 7 ]).inArray( 5 ), 'Okay' );
   		});
   		QUnit.test( 'makeArray', function( assert ) {
   			assert.equal( JSON.stringify( fz().makeArray( 12 ) ), JSON.stringify( [12] ), 'Okay' );
