@@ -206,6 +206,8 @@
       return this;
     } 
 
+
+
     /**
      * [Remove class from DOM Elements]
      * @param  {[type]} classname [description]
@@ -556,6 +558,12 @@
       return false;
     } 
 
+    /**
+     * [merge description]
+     * @param  {[type]} array1 [description]
+     * @param  {[type]} array2 [description]
+     * @return {[type]}        [description]
+     */
     Faze.fn.merge = function( array1, array2 ) { // TODO: needs way more and to be way cleverer that this rubbish
       var newArray = [];
 
@@ -566,6 +574,11 @@
       return newArray;
     }
 
+    /**
+     * [makeArray description]
+     * @param  {[type]} opt [description]
+     * @return {[type]}     [description]
+     */
     Faze.fn.makeArray = function( opt ) {
       var ret = [];
       if( opt != null ) {
@@ -580,6 +593,11 @@
       return ret;
     }
 
+    /**
+     * [sort description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.sort = function( array ) {
       if( this.nodes && this.isArray() ) {
         return this.nodes.sort( function( a, b ) {
@@ -593,6 +611,11 @@
       }
     }
 
+    /**
+     * [random description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.random = function( array ) {
       if( this.nodes ) {
         return array[ Math.floor( Math.random() * array.length ) ];
@@ -600,6 +623,11 @@
       return array[ Math.floor( Math.random() * array.length ) ];
     }
 
+    /**
+     * [flattenArray description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.flattenArray = function( array ) {
       if( this.nodes && this.isArray() ) {
         return this.node.flat( Infinity );
@@ -609,6 +637,12 @@
       }
     }
 
+    /**
+     * [all description]
+     * @param  {[type]}   array [description]
+     * @param  {Function} fn    [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.all = function( array, fn ) {
       if( !fn ) {
         fn = Boolean;
@@ -619,10 +653,21 @@
       return array.every( fn );
     }
 
+    /**
+     * [allEqual description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.allEqual = function( array ) {
       return array.every( function( val ) { return val === array[0] } );
     }
 
+    /**
+     * [any description]
+     * @param  {[type]}   array [description]
+     * @param  {Function} fn    [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.any = function( array, fn ) {
       if( !fn ) {
         fn = Boolean;
@@ -630,6 +675,12 @@
       return array.some( fn );
     }
 
+    /**
+     * [arrayToCSV description]
+     * @param  {[type]} array     [description]
+     * @param  {[type]} delimiter [description]
+     * @return {[type]}           [description]
+     */
     Faze.fn.arrayToCSV = function( array, delimiter ) {
       array.map( function( value ) {
         return value.map( function( x ) {
@@ -638,16 +689,36 @@
       });
     }
 
+    /**
+     * [chunk description]
+     * @param  {[type]} array [description]
+     * @param  {[type]} size  [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.chunk = function( array, size ) {
       Array.from({ length: Math.ceil( array.length / size ) }, function( v, i ) {
         return array.slice( i * size, i * size, + size );
       });
     }
 
+    /**
+     * [filterFalse description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.filterFalse = function( array ) {
+      if( this.nodes ) {
+        return this.nodes.filter( Boolean );
+      }
       return array.filter( Boolean );
     }
 
+    /**
+     * [difference description]
+     * @param  {[type]} a [description]
+     * @param  {[type]} b [description]
+     * @return {[type]}   [description]
+     */
     Faze.fn.difference = function( a, b ) {
       var s = new Set( b );
       return a.filter( function( x ) {
@@ -655,6 +726,13 @@
       });
     }
 
+    /**
+     * [differenceBy description]
+     * @param  {[type]}   a  [description]
+     * @param  {[type]}   b  [description]
+     * @param  {Function} fn [description]
+     * @return {[type]}      [description]
+     */
     Faze.fn.differenceBy = function( a, b, fn ) {
       var s = new Set( b.map( fn ) );
       return a.map( fn ).filter( function( el ) {
@@ -662,16 +740,33 @@
       }); 
     }
 
+    /**
+     * [fitlerNonUnique description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.fitlerNonUnique = function( array ) {
       return array.filter( function( i ) {
         return array.indexOf( i ) === array.lastIndexOf( i );
       });
     }
 
+    /**
+     * [findLast description]
+     * @param  {[type]}   array [description]
+     * @param  {Function} fn    [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.findLast = function( array, fn ){
       return array.filter( fn ).pop();
     }
 
+    /**
+     * [findLastIndex description]
+     * @param  {[type]}   array [description]
+     * @param  {Function} fn    [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.findLastIndex = function( array, fn ) {
       return array.map( function( val, i ) {
         return [ i, val ]; 
@@ -680,10 +775,20 @@
       }).pop()[0];
     }
 
+    /**
+     * [head description]
+     * @param  {[type]} array [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.head = function( array ) {
       return array[0];
     }
 
+    /**
+     * [shuffle description]
+     * @param  {...[type]} array [description]
+     * @return {[type]}          [description]
+     */
     Faze.fn.shuffle = function( ...array ) {
       var m = array.length;
       while( m ) {
@@ -693,12 +798,24 @@
       return array;
     }
 
+    /**
+     * [similarity description]
+     * @param  {[type]} array  [description]
+     * @param  {[type]} values [description]
+     * @return {[type]}        [description]
+     */
     Faze.fn.similarity = function( array, values ) {
       return array.filter( function( v ) {
         return values.includes( v );
       });
     }
 
+    /**
+     * [sortedIndex description]
+     * @param  {[type]} array [description]
+     * @param  {[type]} n     [description]
+     * @return {[type]}       [description]
+     */
     Faze.fn.sortedIndex = function( array, n ) {
       var isDescending = array[0] > array[ array.length - 1 ];
       var index = array.findIndex( function( el ) {
@@ -709,29 +826,112 @@
 
 
     // Objects ============================================
+    /**
+     * [compare description]
+     * @param  {[type]} object   [description]
+     * @param  {[type]} propname [description]
+     * @return {[type]}          [description]
+     */
     Faze.fn.compare = function( object, propname ) {
       return object.sort( function( a, b ) {
         return a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1;
       }); 
     }
 
+    /**
+     * [print_r description]
+     * @param  {[type]} object [description]
+     * @return {[type]}        [description]
+     */
     Faze.fn.print_r = function( object ) {
       return JSON.stringify( object, null, '\t' ).replace( /\n/g, '<br/>' ).replace( /\t/g, '&nbsp;&nbsp;&nbsp;' );
     }
 
     // Helper ========================================
+    /**
+     * [getType description]
+     * @param  {[type]} val [description]
+     * @return {[type]}     [description]
+     */
     Faze.fn.getType = function( val ) {
       return val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase();
     }
 
+    /**
+     * [extend description]
+     * @param  {[type]} obj [description]
+     * @param  {[type]} src [description]
+     * @return {[type]}     [description]
+     */
+    Faze.fn.extend = function( obj, src ) {
+      if( this.nodes && this.lenth ) {
+        for( let key in this.nodes ) {
+          if( this.nodes.hasOwnProperty( key ) ) {
+            obj[key] = this.nodes[key];
+          }
+          return Faze( obj );
+        }
+      }
+      else if( src ) {
+        for( let key in src ) {
+          if( src.hasOwnProperty( key ) ) {
+            obj[key] = src[key];
+          }
+          return Faze( obj );
+        }
+      }
+      return this;
+    }
+
+    /**
+     * [is description]
+     * @param  {[type]}  type [description]
+     * @param  {[type]}  val  [description]
+     * @return {Boolean}      [description]
+     */
     Faze.fn.is = function( type, val ) {
       return !['',null].includes( val ) && val.constructor === type;
     }
 
+    /**
+     * [functionExists description]
+     * @param  {[type]} functionName [description]
+     * @return {[type]}              [description]
+     */
     Faze.fn.functionExists = function( functionName ) {
       return typeof functionName == 'function';
     }
 
+    /**
+     * [getCookie description]
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
+     */
+    Faze.fn.getCookie = function( name ) {
+      var v = document.cookie.match( '(^|;) ?' + name + '=([^;]*)(;|$)' );
+      return v ? v[2] : null;
+    }
+
+    /**
+     * [setCookie description]
+     * @param {[type]} name  [description]
+     * @param {[type]} value [description]
+     * @param {[type]} days  [description]
+     */
+    Faze.fn.setCookie = function( name, value, days ) {
+      var d = new Date;
+      d.SetTime( d.getTime() + 24 * 60 * 60 * 1000 * days );
+      document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    }
+
+    Faze.fn.deleteCookie = function( name ) {
+      this.setCookie( name, '', -1 );
+    }
+
+    /**
+     * [add description]
+     * @param {[type]} option [description]
+     */
     Faze.fn.add = function( option ) {
       if( option instanceof HTMLElement  ) {
         this[this.length+1] = HTMLElement;
@@ -744,6 +944,11 @@
       }
     }
 
+    /**
+     * [attr description]
+     * @param  {[type]} options [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.attr = function( options ) {
       if( !options ) {
         this.each( function( item ) {
@@ -752,17 +957,11 @@
       }
     }
 
-    Faze.fn.children = function() {
-      var children = [];
-      this.each( function( item ) {
-        if( item.hasChildNodes() ) {
-          children.push( this.makeArray( item.children ) );
-        }
-      });
-
-      return new Faze( children );
-    }
-
+    /**
+     * [clone description]
+     * @param  {[type]} options [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.clone = function( options ) {
       var elems = [];
       this.each( function( item ) {
@@ -771,6 +970,10 @@
       return elems;
     }
 
+    /**
+     * [html description]
+     * @return {[type]} [description]
+     */
     Faze.fn.html = function() {
       var str = '';
       this.each( function( item ) {
@@ -779,11 +982,20 @@
       return str;
     }
 
+    /**
+     * [text description]
+     * @return {[type]} [description]
+     */
     Faze.fn.text = function() {
       var str = this.html();
       return str.replace( /<[^>]*>/gm, '' );  
     }
 
+    /**
+     * [isNumeric description]
+     * @param  {[type]}  number [description]
+     * @return {Boolean}        [description]
+     */
     Faze.fn.isNumeric = function( number ) {
       if( !( typeof number === "string" ) && !( typeof number === "number" )  ) {
         return false;
@@ -791,6 +1003,12 @@
       return number.match( /^[\d.]+?/ );
     }
 
+    /**
+     * [attempt description]
+     * @param  {Function}  fn   [description]
+     * @param  {...[type]} args [description]
+     * @return {[type]}         [description]
+     */
     Faze.fn.attempt = function( fn, ...args ) {
       try{
         return fn( ...args );
@@ -800,28 +1018,11 @@
       }
     }
 
-    Faze.fn.on = function( eventType, callback, selector ) {
-      var events = eventType.split( ' ' );
-
-      for( var i = 0; i < events.length; i++ ) {
-        var event = events[i];
-
-        this.each( function( item ) {
-          if( !selector ){
-            item.addEventListener( event, callback );
-          }
-          else {
-            item.addEventListener( event, function(e) {
-              if( e.target && Faze( e.target ).hasClass( selector ) ) {
-                callback.call( this, e );
-              }
-            });
-          }
-        });
-
-      }
-    }
-
+    /**
+     * [wrap description]
+     * @param  {[type]} html [description]
+     * @return {[type]}      [description]
+     */
     Faze.fn.wrap = function( html ) {
       var wrapper = createNodes( html );
 
@@ -831,6 +1032,13 @@
       });
     }
 
+    /**
+     * [poll description]
+     * @param  {Function} fn       [description]
+     * @param  {[type]}   timeout  [description]
+     * @param  {[type]}   interval [description]
+     * @return {[type]}            [description]
+     */
     Faze.fn.poll = function( fn, timeout, interval ) {
       var endTime = Number( new Date() ) + ( timeout || 2000 );
       interval = interval || fn();
@@ -850,6 +1058,12 @@
       return new Promise( checkCondition );
     }
 
+    /**
+     * [once description]
+     * @param  {Function} fn      [description]
+     * @param  {[type]}   context [description]
+     * @return {[type]}           [description]
+     */
     Faze.fn.once = function( fn, context ) {
       var result;
 
@@ -862,6 +1076,12 @@
       }
     }
 
+    /**
+     * [throttle description]
+     * @param  {Function} fn   [description]
+     * @param  {[type]}   wait [description]
+     * @return {[type]}        [description]
+     */
     Faze.fn.throttle = function( fn, wait ) {
       var inThrottle, lastFn, lastTime;
       return function() {
@@ -883,6 +1103,13 @@
       };
     };
 
+    /**
+     * [debouce description]
+     * @param  {[type]} func      [description]
+     * @param  {[type]} wait      [description]
+     * @param  {[type]} immediate [description]
+     * @return {[type]}           [description]
+     */
     Faze.fn.debouce = function( func, wait, immediate ) {
       var timeout;
       return function() {
@@ -902,11 +1129,64 @@
       }
     }
 
+    // Traversing =====================================
+    Faze.fn.parent = function() {
+      var newNodes = [];
+      this.each( function( item ) {
+        var parent = item.parentNode;
+        newNodes.push( parent );
+      });
+      return Faze( newNodes );
+    }
+
+    /**
+     * [children description]
+     * @return {[type]} [description]
+     */
+    Faze.fn.children = function() {
+      var children = [];
+      this.each( function( item ) {
+        if( item.hasChildNodes() ) {
+          children.push( this.makeArray( item.children ) );
+        }
+      });
+
+      return new Faze( children );
+    }
+
+    /**
+     * [remove description]
+     * @return {[type]} [description]
+     */
+    Faze.fn.remove = function() {
+      if( this.nodes ) {
+        this.each( function( item ) {
+          if( item instanceof HTMLElement ) {
+            item.parentNode.removeChild( item );
+          }
+        });
+      }
+      return this;
+    }
+
+
+
+    // Faze.fn.sibling = function( filter ) { // TODO:
+    //   var newNodes = [];
+
+    // }
+    
+    // Faze.fn.closest = function(  )
+
     // Date ===========================================
+    /**
+     * [dayOfYear description]
+     * @param  {[type]} date [description]
+     * @return {[type]}      [description]
+     */
     Faze.fn.dayOfYear = function( date ){
       return Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 );
     }
-
 
     return new Faze();
 })();
