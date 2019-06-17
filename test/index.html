@@ -111,6 +111,19 @@
   		QUnit.test( 'makeArray', function( assert ) {
   			assert.equal( JSON.stringify( fz().makeArray( 12 ) ), JSON.stringify( [12] ), 'Okay' );
   		});
+  		QUnit.test( 'sort', function( assert ) {
+  			assert.equal( JSON.stringify( fz().sort( [ 15, 12 ]  ) ), JSON.stringify( [ 12, 15 ] ), 'Okay' );
+  		});
+  		QUnit.test( 'flattenArray', function( assert ) {
+  			assert.equal( JSON.stringify( fz().flattenArray( [[ 12, 13 ] ]  ) ), JSON.stringify( [ 12, 13 ] ), 'Okay' );
+  		});
+  		QUnit.test( 'all', function( assert ) {
+  			assert.ok( fz( [ true, true, true ] ).all(), 'Okay' );
+  			assert.notOk( fz( [ true, false, true ] ).all(), 'Okay' );
+  		});
+  		QUnit.test( 'allEqual', function( assert ) {
+  			assert.ok( fz([ true, true, true ] ).allEqual(), 'Okay' );
+  		});
   	});
 
   	// QUnit.module( 'Helper functions' );

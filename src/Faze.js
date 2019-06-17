@@ -1,8 +1,8 @@
-(function(){
+(() => {
 
-    var domReadyStack = [];
+    const domReadyStack = [];
 
-    var isSimple = /^.[^:#[.,]*$/;
+    const isSimple = /^.[^:#[.,]*$/;
     // var singleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/;
     // var quickExpr = /^[^<]*(<[\w\W]+>)[^>]*$|^#([\w-]+)$/;
     // var readyBound = false;
@@ -19,7 +19,7 @@
       }
     });
 
-    var defaults = {
+    const defaults = {
       version: '[VERSION]'
     };
 
@@ -27,7 +27,7 @@
      * [Faze instance constructor]
      * @param {Faze} selector [description]
      */
-    var Faze = function( selector ) {
+    const Faze = function( selector ) {
 
       if( !(this instanceof Faze) ) {
         return new Faze( selector );
@@ -37,7 +37,7 @@
         return;
       }
 
-      var extended = {};
+      const extended = {};
 
       for( var prop in defaults ) {
         if(Object.prototype.hasOwnProperty.call( defaults, prop ) ) {
@@ -158,7 +158,7 @@
      */
     function toType( obj ) {
       if( obj == null ) {
-        return obj + "";
+        return `${obj}`;
       }
 
       return typeof obj === "object" ? 
@@ -200,8 +200,8 @@
      * @param {[string]} classname [string of the classname]
      */
     Faze.fn.addClass = function( classname ) {
-      this.each( function( item ) {
-        item.classList.add( classname );
+      this.each( ({classList}) => {
+        classList.add( classname );
       }); 
       return this;
     } 
@@ -213,9 +213,10 @@
      * @param  {[type]} classname [description]
      */
     Faze.fn.removeClass = function( classname ) {
-      this.each( function( item ) {
-        item.classList.remove( classname );
+      this.each( ({classList}) => {
+        classList.remove( classname );
       });
+      return this;
     }
 
     /**
@@ -241,7 +242,7 @@
     Faze.fn.hasClass = function( classname ) {
       var hasClass = false;
       var useMatch = classname.split( /[.#:~*]/ ).length > 1 ? true : false;
-      this.each( function( item ) {
+      this.each( item => {
         if( useMatch ) {
           hasClass = item.matches( classname );
         }
@@ -260,16 +261,16 @@
      */
     Faze.fn.css = function( opt1, opt2 ) {
       if( typeof opt1 === 'string' && typeof opt2 === 'string' ) {
-        this.each( function( item ) {
-          if( null !== item.style[opt1] ) {
-            item.style[opt1] = opt2;
+        this.each( ({style}) => {
+          if( null !== style[opt1] ) {
+            style[opt1] = opt2;
           }
         });
       }
       else if( typeof opt1 === "object" ) {
-        this.each( function( item ) {
-          Faze( opt1 ).each( function( option, index ) {
-            item.style[index] = option[index];
+        this.each( ({style}) => {
+          Faze( opt1 ).each( ( option, index ) => {
+            style[index] = option[index];
           })
         });
       }
@@ -328,18 +329,14 @@
      * @param  {[string]} string 
      * @return {[string]}        [return string without whitespace]
      */
-    Faze.fn.trim = function( string ) {
-      return string.replace( /\s+/g, '' );
-    }
+    Faze.fn.trim = string => string.replace( /\s+/g, '' )
 
     /**
      * [Return size of string in bytes]
      * @param  {[string]} string 
      * @return {[integer]}        [bytes of string]
      */
-    Faze.fn.byteSize = function( string ) {
-      return new Blob([ string ]).size;
-    }
+    Faze.fn.byteSize = string => new Blob([ string ]).size
 
     /**
      * [Capitalize string]
@@ -347,20 +344,14 @@
      * @param  {[boolean]} lowerRest [set all other characters to lowercase]
      * @return {[string]}           
      */
-    Faze.fn.capitalize = function( string, lowerRest ) {
-      return ( string[0].toUpperCase() + ( lowerRest ? string.substr( 1 ).toLowerCase() : string.substr( 1 ) ) );
-    }
+    Faze.fn.capitalize = ( string, lowerRest ) => string[0].toUpperCase() + ( lowerRest ? string.substr( 1 ).toLowerCase() : string.substr( 1 ) )
 
     /**
      * [Capitalize each word]
      * @param  {[type]} string [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.capitalizeWords = function( string ) {
-      return string.replace( /\b[a-z]/g, function( char ) {
-          return char.toUpperCase();
-      });
-    }
+    Faze.fn.capitalizeWords = string => string.replace( /\b[a-z]/g, char => char.toUpperCase() )
 
     /**
      * [DeCapitalize string]
@@ -368,9 +359,7 @@
      * @param  {[boolean]} upperRest [Set all other characters to uppercase]
      * @return {[string]}           [Return decapitalised string]
      */
-    Faze.fn.deCapitalize = function( string, upperRest ) {
-      return string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) );
-    }
+    Faze.fn.deCapitalize = ( string, upperRest ) => string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) )
 
     // TODO: validate CSV data;
     // Faze.fn.validateCSV = function( data ) {
@@ -384,14 +373,10 @@
      * @param  {[type]} onmitFirstRow [description]
      * @return {[type]}               [description]
      */
-    Faze.fn.csvToArray = function( data, delimiter, onmitFirstRow ) {
-      return data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map( function( v ) {
-        return v.split( delimiter ? delimiter : ',' );
-      });
-    }
+    Faze.fn.csvToArray = ( data, delimiter, onmitFirstRow ) => data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map(  v => v.split( delimiter ? delimiter : ',' ) )
 
     Faze.fn.csvToJSON = function( data, delimiter ) {
-      var titles = data.slice( 0, data.indexOf( '\n' ) ).split( delimiter ? delimiter : ',' );
+      const titles = data.slice( 0, data.indexOf( '\n' ) ).split( delimiter ? delimiter : ',' );
       return data.slice( data.indexOf( '\n' ) + 1 ).split( '\n' ).map( function( v ) {
           var values = v.split( delimiter ? delimiter : ',' );
           return titles.reduce( function( obj, title, index ) {
@@ -601,12 +586,12 @@
     Faze.fn.sort = function( array ) {
       if( this.nodes && this.isArray() ) {
         return this.nodes.sort( function( a, b ) {
-          return a.toLowerCase().localeCompare( b.toLowerCase() ); 
+          return a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() ); 
         });
       }
       else {
         return array.sort( function( a, b ) {
-          return a.toLowerCase().localeCompare( b.toLowerCase() );
+          return a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() );
         });
       }
     }
@@ -659,7 +644,10 @@
      * @return {[type]}       [description]
      */
     Faze.fn.allEqual = function( array ) {
-      return array.every( function( val ) { return val === array[0] } );
+      if( this.nodes ) {
+        return this.nodes.every( val => val === this.nodes[0] );
+      }
+      return array.every( val => val === array[0] );
     }
 
     /**
@@ -1166,6 +1154,16 @@
           }
         });
       }
+      return this;
+    }
+
+
+    Faze.fn.enpty = () => {
+      this.each( item => {
+        if( item instanceof HTMLElement ) {
+          item.innerHTML = '';
+        }
+      });
       return this;
     }
 
