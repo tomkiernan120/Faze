@@ -100,13 +100,14 @@
 
   	QUnit.module( 'Array functions', function( assert ) {	
   		QUnit.test( 'isArray', function( assert ) {
+  			assert.ok( fz([]).isArray(), 'Okay' );
   			assert.ok( fz().isArray([]), 'Okay' );
   		});  		
   		QUnit.test( 'inArray', function( assert ) {
   			assert.ok( fz().inArray( 10, [ 12, 11, 10, 9, 8, 7 ]), 'Okay' );
   		});
   		QUnit.test( 'makeArray', function( assert ) {
-  			assert.equal( fz().makeArray( 12 ), [12], 'Okay' );
+  			assert.equal( JSON.stringify( fz().makeArray( 12 ) ), JSON.stringify( [12] ), 'Okay' );
   		});
   	});
 

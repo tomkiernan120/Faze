@@ -6,7 +6,7 @@ var StringReplacePlugin = require("string-replace-webpack-plugin");
 // const ClosurePlugin = require('closure-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/faze.js',
   watch: true,
   output: {

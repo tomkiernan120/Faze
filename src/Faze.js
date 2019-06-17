@@ -58,6 +58,10 @@
         this.nodes = [ selector ];
         this.length = 1;
       }
+      else if( selector instanceof Array ) {
+        this.nodes = selector;
+        this.length = selector.length;
+      }
       else if( typeof selector === 'string' ) {
         if( selector[0] === '<' && selector[selector.length - 1] === '>' ) {
           this.nodes = [ createNodes( selector ) ];
@@ -526,8 +530,13 @@
      * @param  {array}  array value to check
      * @return {Boolean}       
      */
-    Faze.fn.isArray = function( array ) { 
-      return Array.isArray( array );
+    Faze.fn.isArray = function( array ) {
+      if( this.nodes ) {
+        return Array.isArray( this.nodes );
+      }
+      else{
+        return Array.isArray( array );
+      }
     }
 
     Faze.fn.inArray = function( value, array ) {
@@ -560,21 +569,35 @@
           [].push.call( ret, opt );
         }
       }
+
       return ret;
     }
 
     Faze.fn.sort = function( array ) {
-      return array.sort( function( a, b ) {
-        return a.toLowerCase().localeCompare( b.toLowerCase() );
-      });
+      if( this.nodes && this.isArray() ) {
+        return this.nodes.sort( function( a, b ) {
+          return a.toLowerCase().localeCompare( b.toLowerCase() ); 
+        });
+      }
+      else {
+        return array.sort( function( a, b ) {
+          return a.toLowerCase().localeCompare( b.toLowerCase() );
+        });
+      }
     }
 
     Faze.fn.random = function( array ) {
+      if( this.nodes ) {
+        return array[ Math.floor( Math.random() * array.length ) ];
+      }
       return array[ Math.floor( Math.random() * array.length ) ];
     }
 
     Faze.fn.flattenArray = function( array ) {
-      if( this.isArray( array ) ) {
+      if( this.nodes && this.isArray() ) {
+        return this.node.flat( Infinity );
+      }
+      else if( this.isArray( array ) ) {
         return array.flat( Infinity );
       }
     }
@@ -582,6 +605,9 @@
     Faze.fn.all = function( array, fn ) {
       if( !fn ) {
         fn = Boolean;
+      }
+      if( this.nodes && this.isArray() ){
+        return this.nodes.every( fn );
       }
       return array.every( fn );
     }
