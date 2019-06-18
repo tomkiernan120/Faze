@@ -124,6 +124,12 @@
   		QUnit.test( 'allEqual', function( assert ) {
   			assert.ok( fz([ true, true, true ] ).allEqual(), 'Okay' );
   		});
+  		QUnit.test( 'any', function( assert ) {
+  			assert.ok( fz([ true, false, true ] ).any(), 'Okay' );
+  		});
+  		QUnit.test( 'arrayToCSV', function( assert ) {
+  			assert.ok( fz([[ true, false, true ], [ true, false, true ]] ).arrayToCSV(), 'Okay' );
+  		});
   	});
 
   	// QUnit.module( 'Helper functions' );

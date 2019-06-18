@@ -39,7 +39,7 @@
 
       const extended = {};
 
-      for( var prop in defaults ) {
+      for( const prop in defaults ) {
         if(Object.prototype.hasOwnProperty.call( defaults, prop ) ) {
           extended[prop] = defaults[prop];
           this[prop] = defaults[prop];
@@ -80,7 +80,7 @@
 
       if( this.nodes.length ) {
         this.length = this.nodes.length;
-        for( var i = 0; i < this.nodes.length; i++ ) {
+        for( let i = 0; i < this.nodes.length; i++ ) {
           this[i] = this.nodes[i];
         }
       }
@@ -97,7 +97,7 @@
      * @return {node}      [returns html node]
      */
     function createNodes( html ) {
-      var div = document.createElement( 'div' );
+      const div = document.createElement( 'div' );
       div.innerHTML = html;
       return div.firstChild;
     }
@@ -121,8 +121,8 @@
      * @return {Boolean}
      */
     function isLikeArray( obj ) {
-      var length = !!obj && obj.length;
-      var type = toType( obj );
+      const length = !!obj && obj.length;
+      const type = toType( obj );
       if( typeof obj === "function" || isWindow( obj ) ) {
         return false;
       }
@@ -172,7 +172,7 @@
      * @return {Faze}            [returns faze instance]
      */
     Faze.fn.each = function( callback ) {
-      for( var i = 0; i < this.length; i++ ) {
+      for( let i = 0; i < this.length; i++ ) {
         callback.call( this, this[i], i );
       }
       return this;
@@ -224,8 +224,8 @@
      * @param  {[string]} classname [description]
      */
     Faze.fn.toggleClass = function( classname ) {
-      this.each( function( item ) {
-        if( item.classList.contains( classname ) ) {
+      this.each( function({classList}) {
+        if( classList.contains( classname ) ) {
           this.removeClass( classname );
         }
         else {
@@ -240,8 +240,8 @@
      * @return {Boolean}           
      */
     Faze.fn.hasClass = function( classname ) {
-      var hasClass = false;
-      var useMatch = classname.split( /[.#:~*]/ ).length > 1 ? true : false;
+      let hasClass = false;
+      const useMatch = classname.split( /[.#:~*]/ ).length > 1 ? true : false;
       this.each( item => {
         if( useMatch ) {
           hasClass = item.matches( classname );
@@ -282,17 +282,17 @@
      * @param  {[int]} ammount [percentage to change color by]
      * @return {[string]}         [returns hexidecimnal or rgb]
      */
-    Faze.fn.changeColour = function( color, ammount ) {
-      var useHash = false;
+    Faze.fn.changeColour = (color, ammount) => {
+      let useHash = false;
 
       if( color[0] === '#' ) {
         color = color.slice( 1 );
         useHash = true;
       }
 
-      var num = parseInt( color, 16 );
+      const num = parseInt( color, 16 );
 
-      var r = ( num >> 16 ) + ammount;
+      let r = ( num >> 16 ) + ammount;
 
       if( r > 255 ) {
         r = 255;
@@ -301,7 +301,7 @@
         r = 0;
       }
 
-      var b = (( num >> 8 ) & 0x00FF ) + ammount;
+      let b = (( num >> 8 ) & 0x00FF ) + ammount;
 
       if( b > 255 ) {
         b = 255; 
@@ -310,7 +310,7 @@
         b = 0;
       }
 
-      var g = (num & 0x0000FF) + ammount;
+      let g = (num & 0x0000FF) + ammount;
 
       if( g > 255 ) {
         g = 255;
@@ -375,14 +375,15 @@
      */
     Faze.fn.csvToArray = ( data, delimiter, onmitFirstRow ) => data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map(  v => v.split( delimiter ? delimiter : ',' ) )
 
-    Faze.fn.csvToJSON = function( data, delimiter ) {
-      const titles = data.slice( 0, data.indexOf( '\n' ) ).split( delimiter ? delimiter : ',' );
-      return data.slice( data.indexOf( '\n' ) + 1 ).split( '\n' ).map( function( v ) {
-          var values = v.split( delimiter ? delimiter : ',' );
-          return titles.reduce( function( obj, title, index ) {
-              return ( ( obj[title] = values[index] ), obj ) 
-          }, {});
-      });
+    Faze.fn.csvToJSON = (data, delimiter = ',') => {
+      const titles = data.slice(0, data.indexOf('\n')).split(delimiter);
+      return data
+        .slice(data.indexOf('\n') + 1)
+        .split('\n')
+        .map(v => {
+          const values = v.split(delimiter);
+          return titles.reduce((obj, title, index) => ((obj[title] = values[index]), obj), {});
+        });
     }
 
     /**
@@ -390,11 +391,7 @@
      * @param  {[string]} string [HTML risky string]
      * @return {[string]}        [returned string with all html elements escaped]
      */
-    Faze.fn.escapeHTML = function( string ){
-      return string.replace( /[&<>'"]/g, function( tag ) {
-          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' } [tag] || tag );
-      });
-    }
+    Faze.fn.escapeHTML = string => string.replace( /[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' } [tag] || tag))
 
     /**
      * Convert camel case to seperated
@@ -402,9 +399,7 @@
      * @param  {string} seperator seperator you with to use between words (Defaults: _)
      * @return {string}           seperated string
      */
-    Faze.fn.fromCamelCase = function( string, seperator ) {
-      return string.replace( /([a-z\d])([A-Z])/g, '$1' + (seperator ? seperator : '_' ) + '$2' ).replace( /([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + ( seperator ? seperator : '_' ) + '$2' ).toLowerCase();
-    }
+    Faze.fn.fromCamelCase = (string, seperator) => string.replace( /([a-z\d])([A-Z])/g, `$1${seperator ? seperator : '_'}$2` ).replace( /([A-Z]+)([A-Z][a-z\d]+)/g, `$1${seperator ? seperator : '_'}$2` ).toLowerCase()
 
     /**
      * Indet string at every start of new line
@@ -413,9 +408,7 @@
      * @param  {string} indent string to use for indent
      * @return {string}        Indented String
      */
-    Faze.fn.indentString = function( string, count, indent ) {
-      return string.replace( /^/gm, ( indent ? indent : ' ' ).repeat( count ) );
-    }
+    Faze.fn.indentString = (string, count, indent) => string.replace( /^/gm, ( indent ? indent : ' ' ).repeat( count ) )
 
     /**
      * Check if 1 word is an anagram of another
@@ -423,10 +416,10 @@
      * @param  {string}  str2 word to check against
      * @return {boolean}      
      */
-    Faze.fn.isAnagram = function( str1, str2 ) {
-      var normalize = function( str ) {
+    Faze.fn.isAnagram = (str1, str2) => {
+      const normalize = str => {
         str.toLowerCase().replace( /[^a-z0-9]/gi, '' ).split('').sort().join('');
-      }
+      };
       return normalize( str1 ) === normalize( str2 );
     }
 
@@ -435,18 +428,14 @@
      * @param  {string}  str 
      * @return {Boolean}    
      */
-    Faze.fn.isLowerCase = function( str ) {
-      return str === str.toLowerCase();
-    }
+    Faze.fn.isLowerCase = str => str === str.toLowerCase()
 
     /**
      * Check if string is uppercase
      * @param  {string}  str 
      * @return {Boolean}
      */
-    Faze.fn.isUpperCase = function( str ) {
-      return str === str.toUpperCase();
-    }
+    Faze.fn.isUpperCase = str => str === str.toUpperCase()
 
     /**
      * Run function on every character of a string
@@ -454,11 +443,7 @@
      * @param  {Function} fn  function callback for each character
      * @return {string}       Edited string
      */
-    Faze.fn.mapString = function( str, fn ) {
-      return str.split( '' ).map( function( c, i ) {
-        return fn( c, i, str );
-      }).join('');
-    }
+    Faze.fn.mapString = (str, fn) => str.split( '' ).map( (c, i) => fn( c, i, str )).join('')
 
     /**
      * Mask a number of characters of a string
@@ -467,9 +452,7 @@
      * @param  {string} mask character to use as a mask (Defaults to '*')
      * @return {string}      
      */
-    Faze.fn.mask = function( cc, num, mask ) {
-      return cc.slice( - ( num ? num : 4 ) ).padStart( cc.length, ( mask ? mask : '*' ) );
-    }
+    Faze.fn.mask = (cc, num, mask) => cc.slice( - ( num ? num : 4 ) ).padStart( cc.length, ( mask ? mask : '*' ) )
 
     /**
      * Pad a string
@@ -478,9 +461,7 @@
      * @param  {string} char   String to use as padding (Defaults to ' ')
      * @return {string}        Padded string
      */
-    Faze.fn.pad = function( str, length, char ) {
-      return str.padStart( ( str.length + length ) / 2, ( char ? char : ' ' ) ).padEnd( length, ( char ? char : ' ' ) );
-    }
+    Faze.fn.pad = (str, length, char) => str.padStart( ( str.length + length ) / 2, ( char ? char : ' ' ) ).padEnd( length, ( char ? char : ' ' ) )
 
     /**
      * Pluralize value
@@ -489,15 +470,10 @@
      * @param  {[type]} plural [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.pluralize = function( val, word, plural ) {
-      plural = (plural ? plural : word + 's');
-      var _pluralize = function( num,  word, plural ) {
-        return [ 1, -1 ].includes( Number( num ) ) ? word : plural;
-      }
+    Faze.fn.pluralize = (val, word, plural = `${word}s`) => {
+      const _pluralize = (num, word, plural) => [ 1, -1 ].includes( Number( num ) ) ? word : plural;
       if( typeof val === 'object' ) {
-        return function( num, word ) {
-          return _pluralize( num, word, val[word] );
-        }
+        return (num, word) => _pluralize( num, word, val[word] );
       }
       return _pluralize( val, word, plural );
     }
@@ -507,9 +483,7 @@
      * @param  {string} string 
      * @return {string}        String without ASCII characters
      */
-    Faze.fn.removeNonASCII = function( string ) {
-      return string.replace( /[^\x20-\x7E]/g, '' );
-    }
+    Faze.fn.removeNonASCII = string => string.replace( /[^\x20-\x7E]/g, '' )
 
     // Array ==============================================
     /**
@@ -535,10 +509,10 @@
      */
     Faze.fn.inArray = function( value, array ) {
       if( array && this.isArray( array ) ) {      
-        return array.indexOf( value ) > -1;
+        return array.includes(value);
       }
       else if( this.isArray() ) {
-        return this.nodes.indexOf( value ) > -1; 
+        return this.nodes.includes(value); 
       }
       return false;
     } 
@@ -549,10 +523,10 @@
      * @param  {[type]} array2 [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.merge = function( array1, array2 ) { // TODO: needs way more and to be way cleverer that this rubbish
-      var newArray = [];
+    Faze.fn.merge = (array1, array2) => { // TODO: needs way more and to be way cleverer that this rubbish
+      const newArray = [];
 
-      for( var i = 0; i < array2.length; i++ ) {
+      for( let i = 0; i < array2.length; i++ ) {
         newArray[i] = array2[i];
       }
 
@@ -565,7 +539,7 @@
      * @return {[type]}     [description]
      */
     Faze.fn.makeArray = function( opt ) {
-      var ret = [];
+      const ret = [];
       if( opt != null ) {
         if( isLikeArray( opt ) ) {
           this.merge( ret, typeof opt === "string" ? [ opt ] : opt )
@@ -585,14 +559,10 @@
      */
     Faze.fn.sort = function( array ) {
       if( this.nodes && this.isArray() ) {
-        return this.nodes.sort( function( a, b ) {
-          return a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() ); 
-        });
+        return this.nodes.sort( (a, b) => a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() ));
       }
       else {
-        return array.sort( function( a, b ) {
-          return a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() );
-        });
+        return array.sort( (a, b) => a.toString().toLowerCase().localeCompare( b.toString().toLowerCase() ));
       }
     }
 
@@ -656,9 +626,12 @@
      * @param  {Function} fn    [description]
      * @return {[type]}         [description]
      */
-    Faze.fn.any = function( array, fn ) {
+    Faze.fn.any = function(array, fn) {
       if( !fn ) {
         fn = Boolean;
+      }
+      if( !array && this.nodes ){
+        array = this.nodes;
       }
       return array.some( fn );
     }
@@ -669,12 +642,11 @@
      * @param  {[type]} delimiter [description]
      * @return {[type]}           [description]
      */
-    Faze.fn.arrayToCSV = function( array, delimiter ) {
-      array.map( function( value ) {
-        return value.map( function( x ) {
-          return (isNaN( x ) ? '"' + x.replace( /"/g, '""' ) + '"' : x ) 
-        } ).join( delimiter ? delimiter : ',' ).join( '\n' );
-      });
+    Faze.fn.arrayToCSV = function(delimiter, array) {
+      if( this.nodes && array ) {
+        array = this.nodes;
+      }
+      return array.map( value => value.map( x => isNaN( x ) ? `"${x.replace( /"/g, '""' )}"` : x ).join( delimiter ? delimiter : ',' ).join( '\n' ));
     }
 
     /**
@@ -683,11 +655,15 @@
      * @param  {[type]} size  [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.chunk = function( array, size ) {
-      Array.from({ length: Math.ceil( array.length / size ) }, function( v, i ) {
-        return array.slice( i * size, i * size, + size );
-      });
-    }
+    Faze.fn.chunk = (size, array) => {
+      if( !size ) {
+        throw new Error( 'Specify a chunk size' );
+      }
+      if( this.nodes && !array ){
+        array = this.nodes;
+      }
+      return Array.from({ length: Math.ceil( array.length / size ) }, (v, i) => array.slice( i * size, i * size, + size ));
+    }.bind( this )
 
     /**
      * [filterFalse description]
@@ -707,11 +683,9 @@
      * @param  {[type]} b [description]
      * @return {[type]}   [description]
      */
-    Faze.fn.difference = function( a, b ) {
-      var s = new Set( b );
-      return a.filter( function( x ) {
-        return !s.has( x );
-      });
+    Faze.fn.difference = (a, b) => {
+      const s = new Set( b );
+      return a.filter( x => !s.has( x ));
     }
 
     /**
@@ -721,11 +695,9 @@
      * @param  {Function} fn [description]
      * @return {[type]}      [description]
      */
-    Faze.fn.differenceBy = function( a, b, fn ) {
-      var s = new Set( b.map( fn ) );
-      return a.map( fn ).filter( function( el ) {
-        return !s.has( el );
-      }); 
+    Faze.fn.differenceBy = (a, b, fn) => {
+      const s = new Set( b.map( fn ) );
+      return a.map( fn ).filter( el => !s.has( el )); 
     }
 
     /**
@@ -733,10 +705,11 @@
      * @param  {[type]} array [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.fitlerNonUnique = function( array ) {
-      return array.filter( function( i ) {
-        return array.indexOf( i ) === array.lastIndexOf( i );
-      });
+    Faze.fn.fitlerNonUnique = function(array) {
+      if( this.nodes && !array ) {
+        array = this.nodes;
+      }
+      return array.filter( i => array.indexOf( i ) === array.lastIndexOf( i ) )
     }
 
     /**
@@ -745,8 +718,11 @@
      * @param  {Function} fn    [description]
      * @return {[type]}         [description]
      */
-    Faze.fn.findLast = function( array, fn ){
-      return array.filter( fn ).pop();
+    Faze.fn.findLast = function(fn, array) { 
+      if( this.nodes && !array ){
+        array = this.nodes;
+      }
+      return array.filter( fn ).pop()
     }
 
     /**
@@ -755,12 +731,11 @@
      * @param  {Function} fn    [description]
      * @return {[type]}         [description]
      */
-    Faze.fn.findLastIndex = function( array, fn ) {
-      return array.map( function( val, i ) {
-        return [ i, val ]; 
-      }).filter( function(  i, val ) {
-        return fn( val, i, array );
-      }).pop()[0];
+    Faze.fn.findLastIndex = function(fn, array) {
+      if( this.nodes && !array ) {
+        array = this.nodes;
+      } 
+      return array.map( (val, i) => [ i, val ]).filter( (i, val) => fn( val, i, array )).pop()[0]
     }
 
     /**
@@ -768,8 +743,11 @@
      * @param  {[type]} array [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.head = function( array ) {
-      return array[0];
+    Faze.fn.head = function( array ) { 
+      if( !array && this.nodes ) {
+        array = this.nodes;
+      }
+      return array[0] 
     }
 
     /**
@@ -777,10 +755,10 @@
      * @param  {...[type]} array [description]
      * @return {[type]}          [description]
      */
-    Faze.fn.shuffle = function( ...array ) {
-      var m = array.length;
+    Faze.fn.shuffle = (...array) => {
+      let m = array.length;
       while( m ) {
-        var i = Math.floor( Math.random() * m-- );
+        const i = Math.floor( Math.random() * m-- );
         [ array[m], array[i] ] = [ array[i], array[m] ];
       }
       return array;
@@ -792,11 +770,7 @@
      * @param  {[type]} values [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.similarity = function( array, values ) {
-      return array.filter( function( v ) {
-        return values.includes( v );
-      });
-    }
+    Faze.fn.similarity = (array, values) => array.filter( v => values.includes( v ))
 
     /**
      * [sortedIndex description]
@@ -804,11 +778,9 @@
      * @param  {[type]} n     [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.sortedIndex = function( array, n ) {
-      var isDescending = array[0] > array[ array.length - 1 ];
-      var index = array.findIndex( function( el ) {
-        return ( isDescending ? n >= el : n <= el );
-      });
+    Faze.fn.sortedIndex = (array, n) => {
+      const isDescending = array[0] > array[ array.length - 1 ];
+      const index = array.findIndex( el => isDescending ? n >= el : n <= el);
       return index === -1 ? array.length : index;
     }
 
@@ -820,20 +792,14 @@
      * @param  {[type]} propname [description]
      * @return {[type]}          [description]
      */
-    Faze.fn.compare = function( object, propname ) {
-      return object.sort( function( a, b ) {
-        return a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1;
-      }); 
-    }
+    Faze.fn.compare = (object, propname) => object.sort( (a, b) => a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1)
 
     /**
      * [print_r description]
      * @param  {[type]} object [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.print_r = function( object ) {
-      return JSON.stringify( object, null, '\t' ).replace( /\n/g, '<br/>' ).replace( /\t/g, '&nbsp;&nbsp;&nbsp;' );
-    }
+    Faze.fn.print_r = object => JSON.stringify( object, null, '\t' ).replace( /\n/g, '<br/>' ).replace( /\t/g, '&nbsp;&nbsp;&nbsp;' )
 
     // Helper ========================================
     /**
@@ -841,9 +807,7 @@
      * @param  {[type]} val [description]
      * @return {[type]}     [description]
      */
-    Faze.fn.getType = function( val ) {
-      return val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase();
-    }
+    Faze.fn.getType = val => val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase()
 
     /**
      * [extend description]
@@ -877,26 +841,22 @@
      * @param  {[type]}  val  [description]
      * @return {Boolean}      [description]
      */
-    Faze.fn.is = function( type, val ) {
-      return !['',null].includes( val ) && val.constructor === type;
-    }
+    Faze.fn.is = (type, val) => !['',null].includes( val ) && val.constructor === type
 
     /**
      * [functionExists description]
      * @param  {[type]} functionName [description]
      * @return {[type]}              [description]
      */
-    Faze.fn.functionExists = function( functionName ) {
-      return typeof functionName == 'function';
-    }
+    Faze.fn.functionExists = functionName => typeof functionName == 'function'
 
     /**
      * [getCookie description]
      * @param  {[type]} name [description]
      * @return {[type]}      [description]
      */
-    Faze.fn.getCookie = function( name ) {
-      var v = document.cookie.match( '(^|;) ?' + name + '=([^;]*)(;|$)' );
+    Faze.fn.getCookie = name => {
+      const v = document.cookie.match( `(^|;) ?${name}=([^;]*)(;|$)` );
       return v ? v[2] : null;
     }
 
@@ -906,10 +866,10 @@
      * @param {[type]} value [description]
      * @param {[type]} days  [description]
      */
-    Faze.fn.setCookie = function( name, value, days ) {
-      var d = new Date;
+    Faze.fn.setCookie = (name, value, days) => {
+      const d = new Date;
       d.SetTime( d.getTime() + 24 * 60 * 60 * 1000 * days );
-      document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+      document.cookie = `${name}=${value};path=/;expires=${d.toGMTString()}`;
     }
 
     Faze.fn.deleteCookie = function( name ) {
@@ -925,8 +885,8 @@
         this[this.length+1] = HTMLElement;
       }
       else if( option instanceof NodeList ) {
-        var list = this.merge( this.nodes, NodeList );
-        for( var i = 0; i < list.length; i++ ) {
+        const list = this.merge( this.nodes, NodeList );
+        for( let i = 0; i < list.length; i++ ) {
           this[this.length+1] = list[i];
         }
       }
@@ -939,9 +899,7 @@
      */
     Faze.fn.attr = function( options ) {
       if( !options ) {
-        this.each( function( item ) {
-          return item.attributes;
-        });
+        this.each( ({attributes}) => attributes);
       }
     }
 
@@ -951,8 +909,8 @@
      * @return {[type]}         [description]
      */
     Faze.fn.clone = function( options ) {
-      var elems = [];
-      this.each( function( item ) {
+      const elems = [];
+      this.each( item => {
         elems.push( item.clone( options ) );
       });
       return elems;
@@ -963,9 +921,9 @@
      * @return {[type]} [description]
      */
     Faze.fn.html = function() {
-      var str = '';
-      this.each( function( item ) {
-        str += item.outerHTML;
+      let str = '';
+      this.each( ({outerHTML}) => {
+        str += outerHTML;
       });
       return str;
     }
@@ -975,7 +933,7 @@
      * @return {[type]} [description]
      */
     Faze.fn.text = function() {
-      var str = this.html();
+      const str = this.html();
       return str.replace( /<[^>]*>/gm, '' );  
     }
 
@@ -984,7 +942,7 @@
      * @param  {[type]}  number [description]
      * @return {Boolean}        [description]
      */
-    Faze.fn.isNumeric = function( number ) {
+    Faze.fn.isNumeric = number => {
       if( !( typeof number === "string" ) && !( typeof number === "number" )  ) {
         return false;
       }
@@ -997,7 +955,7 @@
      * @param  {...[type]} args [description]
      * @return {[type]}         [description]
      */
-    Faze.fn.attempt = function( fn, ...args ) {
+    Faze.fn.attempt = (fn, ...args) => {
       try{
         return fn( ...args );
       }
@@ -1012,9 +970,9 @@
      * @return {[type]}      [description]
      */
     Faze.fn.wrap = function( html ) {
-      var wrapper = createNodes( html );
+      const wrapper = createNodes( html );
 
-      this.each( function( item ) {
+      this.each( item => {
         item.parentNode.insertBefore( wrapper, item );
         wrapper.appendChild( item );  
       });
@@ -1027,11 +985,11 @@
      * @param  {[type]}   interval [description]
      * @return {[type]}            [description]
      */
-    Faze.fn.poll = function( fn, timeout, interval ) {
-      var endTime = Number( new Date() ) + ( timeout || 2000 );
+    Faze.fn.poll = (fn, timeout, interval) => {
+      const endTime = Number( new Date() ) + ( timeout || 2000 );
       interval = interval || fn();
-      var checkCondition = function( resolve, reject ) {
-        var result = fn();
+      const checkCondition = function( resolve, reject ) {
+        const result = fn();
         if( result ) {
           resolve( result );
         }
@@ -1039,9 +997,9 @@
           setTimeout( checkCondition, interval, resolve, reject );
         }
         else {
-          reject( new Error( 'Timed out for ' + fn + ': ' + arguments ) );
+          reject( new Error( `Timed out for ${fn}: ${arguments}` ) );
         }
-      }
+      };
 
       return new Promise( checkCondition );
     }
@@ -1052,16 +1010,16 @@
      * @param  {[type]}   context [description]
      * @return {[type]}           [description]
      */
-    Faze.fn.once = function( fn, context ) {
-      var result;
+    Faze.fn.once = (fn, context) => {
+      let result;
 
-      return function() {
+      return function(...args) {
         if( fn ) {
-          result = fn.apply( context || this, arguments );
+          result = fn.apply( context || this, args );
         }
 
         return result;
-      }
+      };
     }
 
     /**
@@ -1070,10 +1028,13 @@
      * @param  {[type]}   wait [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.throttle = function( fn, wait ) {
-      var inThrottle, lastFn, lastTime;
+    Faze.fn.throttle = (fn, wait) => {
+      let inThrottle;
+      let lastFn;
+      let lastTime;
       return function() {
-        var context = this, args = arguments;
+        const context = this;
+        const args = arguments;
         if( !inThrottle ) {
           fn.apply( context, args );
           lastTime = Date.now();
@@ -1081,7 +1042,7 @@
         }
         else {
           clearTimeout( lastFn );
-          lastFn = setTimeout( function() {
+          lastFn = setTimeout( () => {
             if( Date.now() - lastTime >= wait ) {
               fn.apply( context, args );
               lastTime = Date.now();
@@ -1098,30 +1059,31 @@
      * @param  {[type]} immediate [description]
      * @return {[type]}           [description]
      */
-    Faze.fn.debouce = function( func, wait, immediate ) {
-      var timeout;
+    Faze.fn.debouce = (func, wait, immediate) => {
+      let timeout;
       return function() {
-        var context = this, args = arguments;
-        var later = function() {
+        const context = this;
+        const args = arguments;
+        const later = () => {
           timeout = null;
           if( !immediate ) {
             func.apply( context, args );
           }
         };
-        var callNow = immediate && !timeout;
+        const callNow = immediate && !timeout;
         clearTimeout( timeout );
         timeout = setTimeout( later, wait );
         if( callNow ) {
           func.apply( context, args );
         }
-      }
+      };
     }
 
     // Traversing =====================================
     Faze.fn.parent = function() {
-      var newNodes = [];
-      this.each( function( item ) {
-        var parent = item.parentNode;
+      const newNodes = [];
+      this.each( ({parentNode}) => {
+        const parent = parentNode;
         newNodes.push( parent );
       });
       return Faze( newNodes );
@@ -1132,7 +1094,7 @@
      * @return {[type]} [description]
      */
     Faze.fn.children = function() {
-      var children = [];
+      const children = [];
       this.each( function( item ) {
         if( item.hasChildNodes() ) {
           children.push( this.makeArray( item.children ) );
@@ -1148,7 +1110,7 @@
      */
     Faze.fn.remove = function() {
       if( this.nodes ) {
-        this.each( function( item ) {
+        this.each( item => {
           if( item instanceof HTMLElement ) {
             item.parentNode.removeChild( item );
           }
@@ -1182,9 +1144,7 @@
      * @param  {[type]} date [description]
      * @return {[type]}      [description]
      */
-    Faze.fn.dayOfYear = function( date ){
-      return Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 );
-    }
+    Faze.fn.dayOfYear = date => Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 )
 
     return new Faze();
 })();
