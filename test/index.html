@@ -128,7 +128,31 @@
   			assert.ok( fz([ true, false, true ] ).any(), 'Okay' );
   		});
   		QUnit.test( 'arrayToCSV', function( assert ) {
-  			assert.ok( fz([[ true, false, true ], [ true, false, true ]] ).arrayToCSV(), 'Okay' );
+  			assert.equal( fz([[ true, false, true ], [ true, false, true ]] ).arrayToCSV(), "true,false,true\ntrue,false,true", 'Okay' );
+  		});
+  		QUnit.test( 'chunk', function( assert ) {
+  			assert.equal( fz( [ true, false, true, true, false, true ] ).chunk( 2 ).length, 3, 'Okay' );
+  			assert.equal( fz( [ true, false, true, true, false, true ] ).chunk( 5 ).length, 2, 'Okay' );
+  		});
+  		QUnit.test( 'filterFalse', function( assert ) {
+  			assert.equal( fz( [ 12, 14, 15, 16, 17, 18 ] ).filterFalse().length, 6, 'Okay' );
+  			assert.equal( fz( [ 12, 14, false, 16, 17, false ] ).filterFalse().length, 4, 'Okay' );
+  		});
+  		QUnit.test( 'difference', function( assert ) {
+  			assert.equal( JSON.stringify( fz().difference( [ 12, 14, 15, 16, 17, 18 ], [ 12, 14, 15, 16, 17, 18, 20 ] ) ), JSON.stringify( [] ), 'Okay' );
+  			assert.equal( JSON.stringify( fz().difference( [ 12, 14, 15, 16, 17, 18, 20 ], [ 12, 14, 15, 16, 17, 18 ] ) ), JSON.stringify( [ 20 ] ), 'Okay' );
+  		});
+  		QUnit.test( 'fitlerNonUnique', function( assert ) {
+  			assert.equal( JSON.stringify( fz().fitlerNonUnique( [ 12, 13, 14, 15, 16 ], [ 12, 14, 15, 16, 17, 18, 20, 22 ] ) ), JSON.stringify( [12, 13, 14, 15, 16] ), 'Okay' );
+  		});
+  		QUnit.test( 'findLast', function( assert ) {
+  			assert.equal(fz().findLast( Boolean, [ 12, 14, 15, 16, 17, 18, 25, false ] ), 25, 'Okay' );
+  		});
+  		QUnit.test( 'findLastIndex', function( assert ) {
+  			assert.equal( fz().findLastIndex( Boolean, [ 12, 14, 15, 16, 17, 18, 25, false ] ), 7, 'Okay' );
+  		});
+  		QUnit.test( 'head', function( assert ) {
+  			assert.equal( fz( [ 12, 14, 15, 16, 17, 18, 25, false ]).head(), 12, 'Okay' );
   		});
   	});
 

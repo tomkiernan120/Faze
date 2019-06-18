@@ -643,10 +643,11 @@
      * @return {[type]}           [description]
      */
     Faze.fn.arrayToCSV = function(delimiter, array) {
-      if( this.nodes && array ) {
+      if( this.nodes && !array ) {
         array = this.nodes;
       }
-      return array.map( value => value.map( x => isNaN( x ) ? `"${x.replace( /"/g, '""' )}"` : x ).join( delimiter ? delimiter : ',' ).join( '\n' ));
+      console.log( array )
+      return array.map( value => value.map( x => ( isNaN( x ) ? `"${x.replace( /"/g, '""' )}"` : x ) ).join( delimiter ? delimiter : ',' ) ).join( '\n' ); 
     }
 
     /**
@@ -655,7 +656,7 @@
      * @param  {[type]} size  [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.chunk = (size, array) => {
+    Faze.fn.chunk = function (size, array) {
       if( !size ) {
         throw new Error( 'Specify a chunk size' );
       }
@@ -663,7 +664,7 @@
         array = this.nodes;
       }
       return Array.from({ length: Math.ceil( array.length / size ) }, (v, i) => array.slice( i * size, i * size, + size ));
-    }.bind( this )
+    }
 
     /**
      * [filterFalse description]
@@ -755,7 +756,10 @@
      * @param  {...[type]} array [description]
      * @return {[type]}          [description]
      */
-    Faze.fn.shuffle = (...array) => {
+    Faze.fn.shuffle = function (...array) {
+      if( !array ) {
+        array = this.nodes;
+      }
       let m = array.length;
       while( m ) {
         const i = Math.floor( Math.random() * m-- );
@@ -770,7 +774,12 @@
      * @param  {[type]} values [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.similarity = (array, values) => array.filter( v => values.includes( v ))
+    Faze.fn.similarity = function( values, array) { 
+      if( this.nodes && !array ){
+        array = this.nodes;
+      }
+      return array.filter( v => values.includes( v ))
+    }
 
     /**
      * [sortedIndex description]
@@ -778,7 +787,10 @@
      * @param  {[type]} n     [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.sortedIndex = (array, n) => {
+    Faze.fn.sortedIndex = function(array, n) {
+      if( this.nodes && !array ) {
+        array = this.nodes;
+      }
       const isDescending = array[0] > array[ array.length - 1 ];
       const index = array.findIndex( el => isDescending ? n >= el : n <= el);
       return index === -1 ? array.length : index;
@@ -911,7 +923,7 @@
     Faze.fn.clone = function( options ) {
       const elems = [];
       this.each( item => {
-        elems.push( item.clone( options ) );
+        elems.push( [item.clone( options )] );
       });
       return elems;
     }
