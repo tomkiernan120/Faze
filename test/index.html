@@ -154,6 +154,19 @@
   		QUnit.test( 'head', function( assert ) {
   			assert.equal( fz( [ 12, 14, 15, 16, 17, 18, 25, false ]).head(), 12, 'Okay' );
   		});
+  		QUnit.test( 'shuffle', function( assert ) {
+  			assert.equal( fz( [ 12, 14, 15, 16, 17, 18, 25, false ]).shuffle().length, 8, 'Okay' );
+  			assert.notEqual( JSON.stringify( fz( [ 12, 14, 15, 16, 17, 18, 25, false ]).shuffle() ), JSON.stringify( [ 12, 14, 15, 16, 17, 18, 25, false ] ), 'Okay' );
+  		});
+  		QUnit.test( 'shuffle', function( assert ) {
+  			assert.equal( JSON.stringify( fz([12, 13, 13, 14]).similarity([12, true]) ),JSON.stringify([12]), 'Okay' );
+  		});
+  		QUnit.test( 'sortedIndex', function( assert ) {
+  			assert.equal( fz([12, 13, 13, 14]).sortedIndex(14), 3, 'Okay' );
+  		});
+  		QUnit.test( 'sortedIndex', function( assert ) {
+  			assert.equal( fz([12, 13, 13, 14]).sortedIndex(14), 3, 'Okay' );
+  		});
   	});
 
   	// QUnit.module( 'Helper functions' );

@@ -646,7 +646,6 @@
       if( this.nodes && !array ) {
         array = this.nodes;
       }
-      console.log( array )
       return array.map( value => value.map( x => ( isNaN( x ) ? `"${x.replace( /"/g, '""' )}"` : x ) ).join( delimiter ? delimiter : ',' ) ).join( '\n' ); 
     }
 
@@ -757,7 +756,7 @@
      * @return {[type]}          [description]
      */
     Faze.fn.shuffle = function (...array) {
-      if( !array ) {
+      if( this.nodes && (!this.isArray( array ) || !array.length) ) {
         array = this.nodes;
       }
       let m = array.length;
@@ -774,7 +773,10 @@
      * @param  {[type]} values [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.similarity = function( values, array) { 
+    Faze.fn.similarity = function( values, array) {
+      if( !values ){
+        throw new Error( 'Please specify a an array values' );
+      } 
       if( this.nodes && !array ){
         array = this.nodes;
       }
@@ -782,12 +784,12 @@
     }
 
     /**
-     * [sortedIndex description]
+     * Returns the lowest index at which value should be inserted into array in order to maintain its sort order.
      * @param  {[type]} array [description]
      * @param  {[type]} n     [description]
      * @return {[type]}       [description]
      */
-    Faze.fn.sortedIndex = function(array, n) {
+    Faze.fn.sortedIndex = function(n, array) {
       if( this.nodes && !array ) {
         array = this.nodes;
       }
@@ -804,7 +806,11 @@
      * @param  {[type]} propname [description]
      * @return {[type]}          [description]
      */
-    Faze.fn.compare = (object, propname) => object.sort( (a, b) => a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1)
+    Faze.fn.compare = function( object, propname ) {
+      return this.is( object ) ? 
+        object.sort( (a, b) => a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1) : 
+        null;
+    }
 
     /**
      * [print_r description]
@@ -1141,7 +1147,19 @@
       return this;
     }
 
+    Faze.fn.memoize = function( fn ) {
+      const cache = new Map();
+      const cached = function( val ) {
+        return cache.has( val ) ? cache.get( val ) : cache.set( val, fn.call( this, val ) ) && cache.get( val ); 
+      };
+      cached.cache = cache;
+      this.cache.push( cached );
+      return cached;
+    }
 
+    Faze.fn.get = function() {
+      console.log( 'test' ); 
+    }
 
     // Faze.fn.sibling = function( filter ) { // TODO:
     //   var newNodes = [];
@@ -1158,5 +1176,5 @@
      */
     Faze.fn.dayOfYear = date => Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 )
 
-    return new Faze();
+    return new Proxy( {}, new Faze());
 })();
