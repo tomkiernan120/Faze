@@ -164,8 +164,8 @@
   		QUnit.test( 'sortedIndex', function( assert ) {
   			assert.equal( fz([12, 13, 13, 14]).sortedIndex(14), 3, 'Okay' );
   		});
-  		QUnit.test( 'sortedIndex', function( assert ) {
-  			assert.equal( fz([12, 13, 13, 14]).sortedIndex(14), 3, 'Okay' );
+  		QUnit.test( 'print_r', function( assert ) {
+  			assert.equal( fz().print_r({something: 13}), "{<br/>&nbsp;&nbsp;&nbsp;\"something\": 13<br/>}", 'Okay' );
   		});
   	});
 

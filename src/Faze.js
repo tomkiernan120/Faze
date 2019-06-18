@@ -806,18 +806,18 @@
      * @param  {[type]} propname [description]
      * @return {[type]}          [description]
      */
-    Faze.fn.compare = function( object, propname ) {
-      return this.is( object ) ? 
-        object.sort( (a, b) => a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1) : 
-        null;
-    }
+    // Faze.fn.compare = function( object, propname ) {
+    //   return this.is( Object, object ) ? 
+    //     object.sort( (a, b) => a[propname].toLowerCase() == b[propname].toLowerCase() ? 0 : a[propname].toLowerCase() < b[propname].toLowerCase() ? -1 : 1) : 
+    //     null;
+    // }
 
     /**
      * [print_r description]
      * @param  {[type]} object [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.print_r = object => JSON.stringify( object, null, '\t' ).replace( /\n/g, '<br/>' ).replace( /\t/g, '&nbsp;&nbsp;&nbsp;' )
+    Faze.fn.print_r = object => JSON.stringify( object, null, '\t' ).replace( /\n/g, '<br/>' ).replace( /\t/g, '&nbsp;&nbsp;&nbsp;' ).replace( /"/g, "\\\"" );
 
     // Helper ========================================
     /**
@@ -854,12 +854,14 @@
     }
 
     /**
-     * [is description]
+     * Checks if the provided value is of the specified type.
      * @param  {[type]}  type [description]
      * @param  {[type]}  val  [description]
      * @return {Boolean}      [description]
      */
-    Faze.fn.is = (type, val) => !['',null].includes( val ) && val.constructor === type
+    Faze.fn.is = function(type, val) {
+     return ![, null].includes(val) && val.constructor === type;
+   }
 
     /**
      * [functionExists description]
