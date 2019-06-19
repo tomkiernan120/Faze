@@ -183,7 +183,10 @@
   			assert.ok( fz().is(Number, 12), 'Okay' );
   		});
   		QUnit.test( 'functionExists', function( assert ) {
-  			assert.ok( fz().is(Object, {something: 13}), 'Okay' );
+  			assert.ok( fz().functionExists( 'console.log' ), 'Okay' );
+  		});
+  		QUnit.test( 'functionExists', function( assert ) {
+  			assert.ok( fz().functionExists( 'console.log' ), 'Okay' );
   		});
   	});
 
