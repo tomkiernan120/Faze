@@ -833,7 +833,7 @@
      * @param  {[type]} src [description]
      * @return {[type]}     [description]
      */
-    Faze.fn.extend = function( obj, src ) {
+    Faze.fn.extend = function( obj, src ) { // TODO: not quite sure how to test this one
       if( this.nodes && this.lenth ) {
         for( let key in this.nodes ) {
           if( this.nodes.hasOwnProperty( key ) ) {
@@ -859,7 +859,7 @@
      * @param  {[type]}  val  [description]
      * @return {Boolean}      [description]
      */
-    Faze.fn.is = function(type, val) {
+    Faze.fn.is = function(type, val) { 
      return ![, null].includes(val) && val.constructor === type;
    }
 
