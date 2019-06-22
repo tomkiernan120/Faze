@@ -744,7 +744,7 @@
      * @return {[type]}       [description]
      */
     Faze.fn.head = function( array ) { 
-      if( !array && this.nodes ) {
+      if( !array && this.isArray( this.nodes ) &&  this.nodes ) {
         array = this.nodes;
       }
       return array[0] 
@@ -887,9 +887,22 @@
      * @param {[type]} days  [description]
      */
     Faze.fn.setCookie = (name, value, days) => {
-      const d = new Date;
-      d.SetTime( d.getTime() + 24 * 60 * 60 * 1000 * days );
+
+      if( !name ) {
+        throw new Error( 'Please specify the name of the cookie' );
+      }
+
+      if( !value ){
+        throw new Error( 'Please enter a value of the cookie' ); 
+      }
+
+      const d = new Date();
+      if( !days ) {
+        days = 30;
+      }
+      d.setTime( d.getTime() + 24 * 60 * 60 * 1000 * days );
       document.cookie = `${name}=${value};path=/;expires=${d.toGMTString()}`;
+      return document.cookie;
     }
 
     Faze.fn.deleteCookie = function( name ) {
@@ -901,6 +914,11 @@
      * @param {[type]} option [description]
      */
     Faze.fn.add = function( option ) {
+
+      console.log( option );
+
+      console.log( typeof option );
+
       if( option instanceof HTMLElement  ) {
         this[this.length+1] = HTMLElement;
       }
@@ -909,6 +927,10 @@
         for( let i = 0; i < list.length; i++ ) {
           this[this.length+1] = list[i];
         }
+      }
+      else if( option instanceof Object ) {
+        this[ this.length + 1 ] = option;
+        this.extend( this, option );
       }
     }
 
@@ -1177,6 +1199,63 @@
      * @return {[type]}      [description]
      */
     Faze.fn.dayOfYear = date => Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 )
+
+    Faze.fn.timeSince = function( date ) {
+      var seconds = Math.floor( ( new Date() - date ) / 1000 );
+      var interval = Math.floor( seconds / 31546000 );
+
+      if( interval > 1 ) {
+        return interval + " years";
+      } 
+
+      interval = Math.floor( seconds / 2592000 );
+
+      if( interval > 1 ) {
+        return interval + " months";
+      }
+
+      interval = Math.floor( seconds / 86400 );
+
+      if( interval > 1 ) {
+        return interval + " days";
+      }
+
+      interval = Math.floor( seconds / 3600 );
+
+      if( interval > 1 ) {
+        return interval + " hours";
+      }
+
+      interval = Math.floor( seconds / 60 );
+
+      if( interval > 1 ) {
+        return interval + " minutes";
+      }
+
+      return Math.floor( seconds ) + " seconds";
+    }
+
+    Faze.fn.on = function( eventType, callback, selector ) {
+      var events = eventType.split( ' ' );
+
+      for( var i = 0; i < events.length; i++ ) {
+        var event = events[i];
+
+        this.each( function( item ) {
+          if( !selector ){
+            item.addEventListener( event, callback );
+          }
+          else {
+            item.addEventListener( event, function(e) {
+              if( e.target && Faze( e.target ).hasClass( selector ) ) {
+                callback.call( this, e );
+              }
+            });
+          }
+        });
+
+      }
+    }
 
     return new Proxy( {}, new Faze());
 })();

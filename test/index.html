@@ -165,7 +165,7 @@
   			assert.equal( fz([12, 13, 13, 14]).sortedIndex(14), 3, 'Okay' );
   		});
   		QUnit.test( 'print_r', function( assert ) {
-  			assert.equal( fz().print_r({something: 13}), "{<br/>&nbsp;&nbsp;&nbsp;\"something\": 13<br/>}", 'Okay' );
+  			assert.equal( fz().print_r({something: 13}), "{<br/>&nbsp;&nbsp;&nbsp;\\\"something\\\": 13<br/>}", 'Okay' );
   		});
   		QUnit.test( 'getType', function( assert ) {
   			assert.equal( fz().getType({something: 13}), "object", 'Okay' );
@@ -183,10 +183,7 @@
   			assert.ok( fz().is(Number, 12), 'Okay' );
   		});
   		QUnit.test( 'functionExists', function( assert ) {
-  			assert.ok( fz().functionExists( 'console.log' ), 'Okay' );
-  		});
-  		QUnit.test( 'functionExists', function( assert ) {
-  			assert.ok( fz().functionExists( 'console.log' ), 'Okay' );
+  			assert.ok( fz().functionExists( console.log ), 'Okay' );
   		});
   	});
 
