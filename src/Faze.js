@@ -362,12 +362,13 @@
     Faze.fn.deCapitalize = ( string, upperRest ) => string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) )
 
     /**
-     * @todo create a funtion that validates a CSV string
-     * @body Need a function that validates CSV strings, for use with both CSVToArray and CSVToJSON 
+     * Simple string validation for CSV
+     * @param {String} string String to validate
+     * @return {Boolean}
      */
-    // Faze.fn.validateCSV = function( data ) {
-
-    // }
+    Faze.fn.validateCSV = function( string ) {
+      return string.match( /"[^"]*"|'[^'\r\n]*'|[^;\r\n]*/g );
+    }
 
     /**
      * [Convert CSV string to array]
