@@ -1,60 +1,56 @@
 # Faze
 
+## Contributors wanted!!!
+
+Actively looking for contributors, really want to make this a helpful and learning experience, please help improve this documentation and code, and really make it clear to possible new comers what we are updating and why. So new contributors can really improve their open source skills and also confidence. Thanks!
+
 Faze is a javascript helper framework much like others out there, although this aims to be a learning tool as well as lightweight and helpful set of javascript APIs
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for extra information about development.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+You will need to clone this repository and also need a current copy of Node, NPM and also be able to use things like webpack
 
 ```
-Give examples
+git clone https://github.com/tomkiernan120/Faze
 ```
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+Firstly go to the Faze directory.
 
 ```
-Give the example
+cd Faze
 ```
 
-And repeat
+Then install all node dependencies
 
 ```
-until finished
+npm install
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Finally call build to compile the javascript and build distribution
 
 ```
-Give an example
+npm run build
 ```
 
-### And coding style tests
+This will also watch for any changes to the src file.
 
-Explain what these tests test and why
 
-```
-Give an example
-```
+Lastly include the dist/faze.min.js file that is being output by webpack in a webpage and use the functions.
 
-## Deployment
+Alternatively you can use the test/index.html to check the unit tests.
 
-Add additional notes about how to deploy this on a live system
+## Running the tests ( Looking for contributors/testers )
+
+There is currenlty only unit tests set up for this system, but looking for contributors to help introduce better and more extensive testing.
+
 
 ## Built With
 
@@ -77,6 +73,3 @@ See also the list of [contributors](https://github.com/tomkiernan120/faze/contri
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
