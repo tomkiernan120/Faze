@@ -361,7 +361,10 @@
      */
     Faze.fn.deCapitalize = ( string, upperRest ) => string[0].toLowerCase() + ( upperRest ? string.substr( 1 ).toUpperCase() : string.substr( 1 ) )
 
-    // TODO: validate CSV data;
+    /**
+     * @todo create a funtion that validates a CSV string
+     * @body Need a function that validates CSV strings, for use with both CSVToArray and CSVToJSON 
+     */
     // Faze.fn.validateCSV = function( data ) {
 
     // }
@@ -522,6 +525,8 @@
      * @param  {[type]} array1 [description]
      * @param  {[type]} array2 [description]
      * @return {[type]}        [description]
+     * @todo merge needs a lot more functionality
+     * @body Need to really look at what options are set within the Faze object and really check what can be merged, basically needs to be alot more extensive, very open to ideas and suggestions
      */
     Faze.fn.merge = (array1, array2) => { // TODO: needs way more and to be way cleverer that this rubbish
       const newArray = [];
@@ -832,8 +837,10 @@
      * @param  {[type]} obj [description]
      * @param  {[type]} src [description]
      * @return {[type]}     [description]
+     * @todo Need to create a unit test
+     * @body Need to create a QUnit unit test, not quite sure how to test.
      */
-    Faze.fn.extend = function( obj, src ) { // TODO: not quite sure how to test this one
+    Faze.fn.extend = function( obj, src ) {
       if( this.nodes && this.lenth ) {
         for( let key in this.nodes ) {
           if( this.nodes.hasOwnProperty( key ) ) {
@@ -874,8 +881,10 @@
      * [getCookie description]
      * @param  {[type]} name [description]
      * @return {[type]}      [description]
+     * @todo Not quite sure how to test
+     * @body need to check if cookie exists, also may need to check if browser incase we want to allow for node use.
      */
-    Faze.fn.getCookie = name => {
+    Faze.fn.getCookie = name => { 
       const v = document.cookie.match( `(^|;) ?${name}=([^;]*)(;|$)` );
       return v ? v[2] : null;
     }
@@ -885,9 +894,10 @@
      * @param {[type]} name  [description]
      * @param {[type]} value [description]
      * @param {[type]} days  [description]
+     * @todo Needs test
+     * @body Needs unit test, and maybe browser check
      */
-    Faze.fn.setCookie = (name, value, days) => {
-
+    Faze.fn.setCookie = (name, value, days) => { 
       if( !name ) {
         throw new Error( 'Please specify the name of the cookie' );
       }
@@ -905,13 +915,22 @@
       return document.cookie;
     }
 
-    Faze.fn.deleteCookie = function( name ) {
+    /**
+     * [deleteCookie description]
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
+     * @todo Needs test
+     * @body Needs unit test, and maybe browser check
+     */
+    Faze.fn.deleteCookie = function( name ) { 
       this.setCookie( name, '', -1 );
     }
 
     /**
      * [add description]
      * @param {[type]} option [description]
+     * @todo Needs test
+     * @body Needs unit testing
      */
     Faze.fn.add = function( option ) {
 
@@ -938,8 +957,10 @@
      * [attr description]
      * @param  {[type]} options [description]
      * @return {[type]}         [description]
+     * @todo Needs unit test
+     * @body Needs a good unit test
      */
-    Faze.fn.attr = function( options ) {
+    Faze.fn.attr = function( options ) { 
       if( !options ) {
         this.each( ({attributes}) => attributes);
       }
@@ -949,8 +970,12 @@
      * [clone description]
      * @param  {[type]} options [description]
      * @return {[type]}         [description]
+     * @todo Needs unit test
+     * @body This needs a unit test
+     * @todo Needs more though
+     * @body Might need more thought about checks and wether it should return a new Faze object or not.
      */
-    Faze.fn.clone = function( options ) {
+    Faze.fn.clone = function( options ) { 
       const elems = [];
       this.each( item => {
         elems.push( [item.clone( options )] );
@@ -961,6 +986,8 @@
     /**
      * [html description]
      * @return {[type]} [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.html = function() {
       let str = '';
@@ -973,6 +1000,8 @@
     /**
      * [text description]
      * @return {[type]} [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.text = function() {
       const str = this.html();
@@ -996,6 +1025,8 @@
      * @param  {Function}  fn   [description]
      * @param  {...[type]} args [description]
      * @return {[type]}         [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.attempt = (fn, ...args) => {
       try{
@@ -1010,6 +1041,8 @@
      * [wrap description]
      * @param  {[type]} html [description]
      * @return {[type]}      [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.wrap = function( html ) {
       const wrapper = createNodes( html );
@@ -1026,6 +1059,8 @@
      * @param  {[type]}   timeout  [description]
      * @param  {[type]}   interval [description]
      * @return {[type]}            [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.poll = (fn, timeout, interval) => {
       const endTime = Number( new Date() ) + ( timeout || 2000 );
@@ -1051,6 +1086,8 @@
      * @param  {Function} fn      [description]
      * @param  {[type]}   context [description]
      * @return {[type]}           [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.once = (fn, context) => {
       let result;
@@ -1069,6 +1106,8 @@
      * @param  {Function} fn   [description]
      * @param  {[type]}   wait [description]
      * @return {[type]}        [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.throttle = (fn, wait) => {
       let inThrottle;
@@ -1100,6 +1139,8 @@
      * @param  {[type]} wait      [description]
      * @param  {[type]} immediate [description]
      * @return {[type]}           [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
      */
     Faze.fn.debouce = (func, wait, immediate) => {
       let timeout;
@@ -1122,6 +1163,14 @@
     }
 
     // Traversing =====================================
+    /**
+     * [parent description]
+     * @return {[type]} [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
+     * @todo Needs better docblock
+     * @body needs a better docblock setting up more description
+     */
     Faze.fn.parent = function() {
       const newNodes = [];
       this.each( ({parentNode}) => {
@@ -1134,6 +1183,10 @@
     /**
      * [children description]
      * @return {[type]} [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
+     * @todo Needs better docblock
+     * @body needs a better docblock setting up more description
      */
     Faze.fn.children = function() {
       const children = [];
@@ -1149,6 +1202,10 @@
     /**
      * [remove description]
      * @return {[type]} [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
+     * @todo Needs better docblock
+     * @body needs a better docblock setting up more description
      */
     Faze.fn.remove = function() {
       if( this.nodes ) {
@@ -1161,8 +1218,15 @@
       return this;
     }
 
-
-    Faze.fn.enpty = () => {
+    /**
+     * [description]
+     * @return {[type]} [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
+     * @todo Needs better docblock
+     * @body needs a better docblock setting up more description
+     */
+    Faze.fn.empty = () => {
       this.each( item => {
         if( item instanceof HTMLElement ) {
           item.innerHTML = '';
@@ -1171,6 +1235,15 @@
       return this;
     }
 
+    /**
+     * [memoize description]
+     * @param  {Function} fn [description]
+     * @return {[type]}      [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
+     * @todo Needs better docblock
+     * @body needs a better docblock setting up more description
+     */
     Faze.fn.memoize = function( fn ) {
       const cache = new Map();
       const cached = function( val ) {
@@ -1181,15 +1254,19 @@
       return cached;
     }
 
-    Faze.fn.get = function() {
-      console.log( 'test' ); 
-    }
-
+    /**
+     * @todo Set up a function to find sibling
+     * @body Build a function to find the selected Faze objects siblings
+     */
     // Faze.fn.sibling = function( filter ) { // TODO:
     //   var newNodes = [];
 
     // }
     
+    /**
+     * @todo Setup function to find closest
+     * @body Build a function to find the closest 'x' object to Faze selected objects
+     */
     // Faze.fn.closest = function(  )
 
     // Date ===========================================
@@ -1197,10 +1274,21 @@
      * [dayOfYear description]
      * @param  {[type]} date [description]
      * @return {[type]}      [description]
+     * @todo Needs Unit Test
+     * @body Needs a QUnit Unit test
      */
-    Faze.fn.dayOfYear = date => Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 )
+    Faze.fn.dayOfYear = date => Math.floor( ( date - new Date( date.getFullYear(), 0, 0 ) ) / 1000 / 60 / 60 / 24 ) //TODO: not too sure how to test
 
-    Faze.fn.timeSince = function( date ) {
+    /**
+     * [timeSince description]
+     * @param  {[type]} date [description]
+     * @return {[type]}      [description]
+     * @todo Needs Unit Test
+     * @body Needs unit testing
+     * @todo Needs better docblock
+     * @body needs a better docblock setting up more description
+     */
+    Faze.fn.timeSince = function( date ) { //TODO: not too sure how to test
       var seconds = Math.floor( ( new Date() - date ) / 1000 );
       var interval = Math.floor( seconds / 31546000 );
 
@@ -1256,6 +1344,11 @@
 
       }
     }
+
+    /**
+     * @todo Plugin extender
+     * @body Think about ways and means of creating a plugin extension api
+     */
 
     return new Proxy( {}, new Faze());
 })();

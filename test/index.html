@@ -185,6 +185,15 @@
   		QUnit.test( 'functionExists', function( assert ) {
   			assert.ok( fz().functionExists( console.log ), 'Okay' );
   		});
+      QUnit.test( 'html', function( assert ) {
+        assert.equal( fz( '#qunit' ).html(), '<div id="qunit"></div>', 'Okay' );
+      });
+      QUnit.test( 'text', function( assert ) {
+        assert.equal( fz( '#qunit' ).text(), '', 'Okay' );
+      });
+      QUnit.test( 'isNumeric', function( assert ) {
+        assert.ok( fz().isNumeric( 2 ), 'Okay' );
+      });
   	});
 
   	// QUnit.module( 'Helper functions' );
