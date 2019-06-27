@@ -29,7 +29,6 @@ fz().domReady( function() {
 
   fz( '.outer-nav a' ).on( 'click', function(e) {
     e.preventDefault();
-    var fzthis = fz( this );
 
     if( this.href ) {
       window.location.hash = '';
