@@ -379,9 +379,19 @@
      * @param  {[type]} onmitFirstRow [description]
      * @return {[type]}               [description]
      */
-    Faze.fn.csvToArray = ( data, delimiter, onmitFirstRow ) => data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map(  v => v.split( delimiter ? delimiter : ',' ) )
+    Faze.fn.csvToArray = function( data, delimiter, onmitFirstRow ) {
+      if( this.validateCSV( data ) ){
+        return data.slice( onmitFirstRow ? data.indexOf('\n') + 1 : 0 ).split( '\n' ).map(  v => v.split( delimiter ? delimiter : ',' ) )
+      }
+      else {
+        throw new Error( 'Could not verify CSV string' );
+      }
+    }
 
-    Faze.fn.csvToJSON = (data, delimiter = ',') => {
+    Faze.fn.csvToJSON = function(data, delimiter = ',') {
+      if( !this.validateCSV ){
+        throw new Error( 'Could not verify CSV string' );
+      }
       const titles = data.slice(0, data.indexOf('\n')).split(delimiter);
       return data
         .slice(data.indexOf('\n') + 1)
@@ -654,7 +664,11 @@
       if( this.nodes && !array ) {
         array = this.nodes;
       }
-      return array.map( value => value.map( x => ( isNaN( x ) ? `"${x.replace( /"/g, '""' )}"` : x ) ).join( delimiter ? delimiter : ',' ) ).join( '\n' ); 
+      const CSV = array.map( value => value.map( x => ( isNaN( x ) ? `"${x.replace( /"/g, '""' )}"` : x ) ).join( delimiter ? delimiter : ',' ) ).join( '\n' ); 
+      if( this.validateCSV( CSV ) ) {
+        return CSV;
+      }
+      return null;
     }
 
     /**
