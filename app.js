@@ -1,6 +1,15 @@
 fz().domReady( function() {
 
-  particlesJS.load( '#particle-js', 'particles.json', function() {
+  var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  if (window.location.hash && isChrome) {
+    setTimeout(function () {
+      var hash = window.location.hash;
+      window.location.hash = "";
+      window.location.hash = hash;
+    }, 300);
+  }
+
+  particlesJS.load( 'particle-js', 'particles.json', function() {
     if( window.console ) {
       console.log( 'Particles JSON loaded correctly' );
     }
@@ -18,8 +27,15 @@ fz().domReady( function() {
     fz( '.navigation' ).toggleClass( 'active' );
   }, '.perspective.modelview' );
 
-  fz( 'button#documentation' ).on( 'click', function(e) {
+  fz( '.outer-nav a' ).on( 'click', function(e) {
+    e.preventDefault();
+    var fzthis = fz( this );
 
+    if( this.href ) {
+      window.location.hash = '';
+      window.location.hash = this.getAttribute( 'href' );
+      window.location.reload();
+    }
   });
 
   var header = document.querySelector( 'header' );
