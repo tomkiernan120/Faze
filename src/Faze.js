@@ -115,6 +115,8 @@
       return obj != null && obj === obj.window;
     }
 
+    const isTravisCI = () => 'TRAVIS' in process.env && 'CI' in process.env;
+
     /**
      * [check if object is array like]
      * @param  {[type]}
