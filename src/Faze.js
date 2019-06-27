@@ -115,6 +115,8 @@
       return obj != null && obj === obj.window;
     }
 
+    // const isTravisCI = () => 'TRAVIS' in process.env && 'CI' in process.env;
+
     /**
      * [check if object is array like]
      * @param  {[type]}
@@ -579,7 +581,7 @@
      */
     Faze.fn.random = function( array ) {
       if( this.nodes ) {
-        return array[ Math.floor( Math.random() * array.length ) ];
+        return this.nodes[ Math.floor( Math.random() * this.nodes.length ) ];
       }
       return array[ Math.floor( Math.random() * array.length ) ];
     }

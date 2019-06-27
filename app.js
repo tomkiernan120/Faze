@@ -1,5 +1,14 @@
 fz().domReady( function() {
 
+  var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  if (window.location.hash && isChrome) {
+    setTimeout(function () {
+      var hash = window.location.hash;
+      window.location.hash = "";
+      window.location.hash = hash;
+    }, 300);
+  }
+
   particlesJS.load( 'particle-js', 'particles.json', function() {
     if( window.console ) {
       console.log( 'Particles JSON loaded correctly' );
@@ -18,8 +27,14 @@ fz().domReady( function() {
     fz( '.navigation' ).toggleClass( 'active' );
   }, '.perspective.modelview' );
 
-  fz( 'button#documentation' ).on( 'click', function(e) {
+  fz( '.outer-nav a' ).on( 'click', function(e) {
+    e.preventDefault();
 
+    if( this.href ) {
+      window.location.hash = '';
+      window.location.hash = this.getAttribute( 'href' );
+      window.location.reload();
+    }
   });
 
   var header = document.querySelector( 'header' );
@@ -58,13 +73,11 @@ var Sticky = (function(){
       }
     },
     setFixed: function() {
-      console.log( this );
       this.element.classList.add( CSS_CLASS_ACTIVE );
       this.element.style.position = 'fixed';
       this.element.style.top = 0;
     },
     setStatic: function() {
-            console.log( this );
       this.element.classList.remove( CSS_CLASS_ACTIVE );
       this.element.style.position = 'static';
       this.element.style.top = 'auto';
