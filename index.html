@@ -139,87 +139,379 @@
 									<p>Example</p>
 									<pre class="language-javascript">
 										<code>
-											Fz().trim( 'staqwrefg aWERFAQWERG' );
+											fz().trim( 'staqwrefg aWERFAQWERG' );
 											// outputs 'staqwrefg aWERFAQWERG'											
 										</code>
 									</pre>
-								<h3 id="trim">byteSize</h3> <!-- might need moving to a different area -->
+								<h3 id="trim">byteSize</h3> 
 									<hr>
 									<p><strong>Categories:</strong> string</p>
 									<p>Will remove all white space from a string</p>
 									<p>Example</p>
 									<pre class="language-javascript">
 										<code>
-											Fz().trim( 'staqwrefg aWERFAQWERG' );
+											fz().trim( 'staqwrefg aWERFAQWERG' );
 											// outputs 'staqwrefg aWERFAQWERG'											
 										</code>
 									</pre>								
-								<h3 id="trim">capitalize</h3> <!-- might need moving to a different area -->
-									<hr>
+								<h3 id="trim">capitalize</h3> 
 									<p><strong>Categories:</strong> string</p>
 									<p>will capitalise first letter of string and turn the rest to lower case unless the second argument is explicitly false</p>
 									<p>Example</p>
 									<pre class="language-javascript">
 										<code>
-											Fz().capitalise( 'staqwrefg aWERFAQWERG' );
+											fz().capitalise( 'staqwrefg aWERFAQWERG' );
 											// outputs 'Staqwrefg awerfaqwerg'	
 
-											Fz().capitalise( 'staqwrefg aWERFAQWERG', false );
+											fz().capitalise( 'staqwrefg aWERFAQWERG', false );
 											// outputs 'Staqwrefg aWERFAQWERG'											
 										</code>
 									</pre>																
-								<h3 id="trim">capitalizeWords</h3> <!-- might need moving to a different area -->
+								<h3 id="trim">capitalizeWords</h3> 
 									<hr>
 									<p><strong>Categories:</strong> string</p>
 									<p>will capitalise first letter of every word in the string and turn the rest to lowercase</p>
 									<p>Example</p>
 									<pre class="language-javascript">
 										<code>
-											Fz().capitalizeWords( 'staqwrefg aWERFAQWERG' );
+											fz().capitalizeWords( 'staqwrefg aWERFAQWERG' );
 											// outputs 'Staqwrefg Awerfaqwerg'							
 										</code>
 									</pre>								
-								<h3 id="trim">deCapitalize</h3> <!-- might need moving to a different area -->
+								<h3 id="trim">deCapitalize</h3> 
 									<hr>
 									<p><strong>Categories:</strong> string</p>
 									<p>will return a string minus capitalised first letter of every word in the string and turn the rest to lowercase, if second argument true rest of string will be uppercased</p>
 									<p>Example</p>
 									<pre class="language-javascript">
 										<code>
-											Fz().deCapitalize( 'Staqwrefg aWERFAQWERG' );
+											fz().deCapitalize( 'Staqwrefg aWERFAQWERG' );
 											// outputs 'staqwrefg aWERFAQWERG'			
 
-											Fz().deCapitalize( 'Staqwrefg aWERFAQWERG', true );
+											fz().deCapitalize( 'Staqwrefg aWERFAQWERG', true );
 											// outputs 'sTAQWREFG AWERFAQWERG'							
 										</code>
 									</pre>													
-								<h3 id="trim">validateCSV</h3> <!-- might need moving to a different area -->
+								<!-- <h3 id="trim">validateCSV</h3> 
 									<hr>
 									<p><strong>Categories:</strong> string</p>
 									<p>Will return true of false depending on the validity of the CSV string</p>
 									<p>Example</p>
 									<pre class="language-javascript">
 										<code>
-											Fz().validateCSV( '1,"Eldon Base for stackable storage shelf, platinum",Muhammed MacIntyre,3,-213.25,38.94,35,Nunavut,Storage & Organization,0.8
-												2,"1.7 Cubic Foot Compact ""Cube"" Office Refrigerators",Barry French,293,457.81,208.16,68.02,Nunavut,Appliances,0.58
-												3,"Cardinal Slant-D® Ring Binder, Heavy Gauge Vinyl",Barry French,293,46.71,8.69,2.99,Nunavut,Binders and Binder Accessories,0.39
-												4,R380,Clay Rozendal,483,1198.97,195.99,3.99,Nunavut,Telephones and Communication,0.58
-												5,Holmes HEPA Air Purifier,Carlos Soltero,515,30.94,21.78,5.94,Nunavut,Appliances,0.5
-												6,G.E. Longer-Life Indoor Recessed Floodlight Bulbs,Carlos Soltero,515,4.43,6.64,4.95,Nunavut,Office Furnishings,0.37
-												7,"Angle-D Binders with Locking Rings, Label Holders",Carl Jackson,613,-54.04,7.3,7.72,Nunavut,Binders and Binder Accessories,0.38
-												8,"SAFCO Mobile Desk Side File, Wire Frame",Carl Jackson,613,127.70,42.76,6.22,Nunavut,Storage & Organization,
-												9,"SAFCO Commercial Wire Shelving, Black",Monica Federle,643,-695.26,138.14,35,Nunavut,Storage & Organization,
-												10,Xerox 198,Dorothy Badders,678,-226.36,4.98,8.33,Nunavut,Paper,0.38
-											' );
-											// outputs true	
+											fz().validateCSV( '1,"Eldon Base for stackable storage shelf, platinum",Muhammed MacIntyre,3,-213.25,38.94,35,Nunavut,Storage & Organization,0.8\r 2,"1.7 Cubic Foot Compact ""Cube"" Office Refrigerators",Barry French,293,457.81,208.16,68.02,Nunavut,Appliances,0.58\r 3,"Cardinal Slant-D® Ring Binder, Heavy Gauge Vinyl",Barry French,293,46.71,8.69,2.99,Nunavut,Binders and Binder Accessories,0.39\r 4,R380,Clay Rozendal,483,1198.97,195.99,3.99,Nunavut,Telephones and Communication,0.58\r 5,Holmes HEPA Air Purifier,Carlos Soltero,515,30.94,21.78,5.94,Nunavut,Appliances,0.5\r 6,G.E. Longer-Life Indoor Recessed Floodlight Bulbs,Carlos Soltero,515,4.43,6.64,4.95,Nunavut,Office Furnishings,0.37\r 7,"Angle-D Binders with Locking Rings, Label Holders",Carl Jackson,613,-54.04,7.3,7.72,Nunavut,Binders and Binder Accessories,0.38\r 8,"SAFCO Mobile Desk Side File, Wire Frame",Carl Jackson,613,127.70,42.76,6.22,Nunavut,Storage & Organization,\r 9,"SAFCO Commercial Wire Shelving, Black",Monica Federle,643,-695.26,138.14,35,Nunavut,Storage & Organization,\r 10,Xerox 198,Dorothy Badders,678,-226.36,4.98,8.33,Nunavut,Paper,0.38\r ' ); 
+											// outputs true
 
 
-											Fz().validateCSV( '1,"Eldon Base for stackable storage shelf, platinum",Muhammed MacIntyre,3,-213.25,38.94,35,Nunavut,Storage & Organization,0.8
-												2,"1.7 Cubic Foot Compact ""Cube
-											' );
+											fz().validateCSV( '1,\"Eldon Base for stackable storage shelf, platinum",Muhammed MacIntyre,3,-213.25,38.94,35,Nunavut,Storage & Organization,0.8
+												2,\"1.7 Cubic Foot Compact \"\"Cube' );
 											// outputs false							
 										</code>
-									</pre>								
+									</pre> -->
+<!-- 								<h3 id="trim">csvToArray</h3>
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+
+											fz().csvToArray( '1,"Eldon Base for stackable storage shelf, platinum",Muhammed MacIntyre,3,-213.25,38.94,35,Nunavut,Storage & Organization,0.8\r 2,"1.7 Cubic Foot Compact ""Cube"" Office Refrigerators",Barry French,293,457.81,208.16,68.02,Nunavut,Appliances,0.58\r 3,"Cardinal Slant-D® Ring Binder, Heavy Gauge Vinyl",Barry French,293,46.71,8.69,2.99,Nunavut,Binders and Binder Accessories,0.39\r 4,R380,Clay Rozendal,483,1198.97,195.99,3.99,Nunavut,Telephones and Communication,0.58\r 5,Holmes HEPA Air Purifier,Carlos Soltero,515,30.94,21.78,5.94,Nunavut,Appliances,0.5\r 6,G.E. Longer-Life Indoor Recessed Floodlight Bulbs,Carlos Soltero,515,4.43,6.64,4.95,Nunavut,Office Furnishings,0.37\r 7,"Angle-D Binders with Locking Rings, Label Holders",Carl Jackson,613,-54.04,7.3,7.72,Nunavut,Binders and Binder Accessories,0.38\r 8,"SAFCO Mobile Desk Side File, Wire Frame",Carl Jackson,613,127.70,42.76,6.22,Nunavut,Storage & Organization,\r 9,"SAFCO Commercial Wire Shelving, Black",Monica Federle,643,-695.26,138.14,35,Nunavut,Storage & Organization,\r 10,Xerox 198,Dorothy Badders,678,-226.36,4.98,8.33,Nunavut,Paper,0.38\r ' );
+											// outputs csvToJSON
+
+										</code>
+									</pre> -->
+<!-- 								<h3 id="trim">csvToJSON</h3>
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+
+											fz().csvToJSON( '1,"Eldon Base for stackable storage shelf, platinum",Muhammed MacIntyre,3,-213.25,38.94,35,Nunavut,Storage & Organization,0.8\r 2,"1.7 Cubic Foot Compact ""Cube"" Office Refrigerators",Barry French,293,457.81,208.16,68.02,Nunavut,Appliances,0.58\r 3,"Cardinal Slant-D® Ring Binder, Heavy Gauge Vinyl",Barry French,293,46.71,8.69,2.99,Nunavut,Binders and Binder Accessories,0.39\r 4,R380,Clay Rozendal,483,1198.97,195.99,3.99,Nunavut,Telephones and Communication,0.58\r 5,Holmes HEPA Air Purifier,Carlos Soltero,515,30.94,21.78,5.94,Nunavut,Appliances,0.5\r 6,G.E. Longer-Life Indoor Recessed Floodlight Bulbs,Carlos Soltero,515,4.43,6.64,4.95,Nunavut,Office Furnishings,0.37\r 7,"Angle-D Binders with Locking Rings, Label Holders",Carl Jackson,613,-54.04,7.3,7.72,Nunavut,Binders and Binder Accessories,0.38\r 8,"SAFCO Mobile Desk Side File, Wire Frame",Carl Jackson,613,127.70,42.76,6.22,Nunavut,Storage & Organization,\r 9,"SAFCO Commercial Wire Shelving, Black",Monica Federle,643,-695.26,138.14,35,Nunavut,Storage & Organization,\r 10,Xerox 198,Dorothy Badders,678,-226.36,4.98,8.33,Nunavut,Paper,0.38\r ' );
+											// outputs [{…}]
+						
+										</code>
+									</pre>	 -->
+
+								<h3 id="trim">escapeHTML</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().escapeHTML( '&lt;div>&lt;/div>' );
+											// outputs "&\lt;div&\gt;&\lt;/div&\gt;" 
+						
+										</code>
+									</pre>	
+
+								<h3 id="trim">fromCamelCase</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().fromCamelCase( 'fromCamelCase' );
+											// outputs "from Camel Case"; 				
+
+											fz().fromCamelCase( 'fromCamelCase', '-' );
+											// outputs "from-Camel-Case"; 
+						
+										</code>
+									</pre>	
+
+								<h3 id="trim">isAnagram</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().isAnagram( 'Jim Morrison', 'Mr Mojo Risin' );
+											// outputs true 				
+
+											fz().isAnagram( 'fromCamelCase', 'Mr Mojo Risin' );
+											// outputs false
+						
+										</code>
+									</pre>	
+
+								<h3 id="trim">isLowerCase</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().isLowerCase( 'JIMMO' );
+											// outputs false 				
+
+											fz().isLowerCase( 'something' );
+											// outputs true
+						
+										</code>
+									</pre>	
+
+								<h3 id="trim">isUpperCase</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().isUpperCase( 'JIM' );
+											// outputs true 				
+
+											fz().isUpperCase( 'something' );
+											// outputs false
+						
+										</code>
+									</pre>	
+
+								<h3 id="trim">mapString</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().mapString( 'JIM', function( character, index, string ) {
+												// manipulate character and return to change it
+												return character.toLowerCase();
+											});
+											//returns 'jim';
+						
+										</code>
+									</pre>	
+
+
+								<h3 id="trim">mask</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().mask( 'testing', 3, '*' );
+											// returns "****ing"				
+
+											fz().mask( 'testing', 1, '-' );
+											// returns "------g"
+						
+										</code>
+									</pre>	
+
+								<h3 id="trim">pad</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().pad( 'testing', 11, ' ' );
+											// returns "  testing  "			
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">removeNonASCII</h3> 
+									<hr>
+									<p><strong>Categories:</strong> string</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().removeNonASCII( 'testing¡' );
+											// returns "testing"			
+
+										</code>
+									</pre>	
+
+								<h2 id="string">Array functions</h2>
+								<hr>
+
+								<h3 id="trim">isArray</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().isArray( [] );
+											// returns true			
+
+											fz( [ 42, 42,  42 ] ).isArray();
+											// returns true		
+
+											fz( { foo: "bar" } ).isArray();
+											// returns false			
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">inArray</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().inArray( 12, [ 12 ] );
+											// returns true			
+
+											fz( [ 42, 42,  42 ] ).inArray( 42 );
+											// returns true		
+
+											fz( [ 'string', 12 ] ).inArray( 42 );
+											// returns false			
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">merge</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().merge( [ 12 ], [ 12 ] );
+											// returns [ 12, 12 ]			
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">makeArray</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().makeArray( [ 12 ], [ 12 ] );
+											// returns [ 12, 12 ]			
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">sort</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().sort( [ 'b', 'c', 'a' ] );
+											// returns [ 'a', 'b', 'c' ];			
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">random</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().random( [ 'b', 'c', 'a' ] );
+											// returns random between 'a', 'b' and 'c';
+
+											fz( [ 'b', 'c', 'a' ] ).random();
+											// returns random between 'a', 'b' and 'c';
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">flattenArray</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz().flattenArray( [[ 'b', 'c', 'a' ]] );
+											// returns [ 'a', 'b', 'c' ]
+
+										</code>
+									</pre>	
+
+								<h3 id="trim">all</h3> 
+									<hr>
+									<p><strong>Categories:</strong> Array</p>
+									<p>Will return true of false depending on the validity of the CSV string</p>
+									<p>Example</p>
+									<pre class="language-javascript">
+										<code>
+											
+											fz( [ 1, 2, 3 ] ).all( function(  ) {
+												return this + 1;
+											});
+											// returns [ 2, 3, 4 ]
+
+										</code>
+									</pre>	
+
 								<!-- API DOcs -->
 						</div>
 					</div>
