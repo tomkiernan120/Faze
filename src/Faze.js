@@ -795,9 +795,9 @@
      * @param  {[type]} values [description]
      * @return {[type]}        [description]
      */
-    Faze.fn.similarity = function( values, array) {
+    Faze.fn.similarity = function( values, array ) {
       if( !values ){
-        throw new Error( 'Please specify a an array values' );
+        throw new Error( 'Please specify an array values' );
       } 
       if( this.nodes && !array ){
         array = this.nodes;
@@ -915,7 +915,7 @@
      * @body Needs unit test, and maybe browser check
      */
     Faze.fn.setCookie = (name, value, days) => { 
-      if( !name ) {
+      if( !name && name === '' ) {
         throw new Error( 'Please specify the name of the cookie' );
       }
 
@@ -1306,6 +1306,9 @@
      * @body needs a better docblock setting up more description
      */
     Faze.fn.timeSince = function( date ) { //TODO: not too sure how to test
+      if( this.isFuture( date ) ) {
+        throw new Error( 'the date specified must be a past date' );
+      }
       var seconds = Math.floor( ( new Date() - date ) / 1000 );
       var interval = Math.floor( seconds / 31546000 );
 
@@ -1338,6 +1341,12 @@
       }
 
       return Math.floor( seconds ) + " seconds";
+    }
+
+    Faze.fn.isFuture = function( value ) {
+      var now = new Date;
+      var target = new Date( value );
+      return now < target;
     }
 
     Faze.fn.on = function( eventType, callback, selector ) {
