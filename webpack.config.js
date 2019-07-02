@@ -3,7 +3,6 @@ const webpack = require( 'webpack' );
 const PACKAGE = require( './package.json' );
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 var StringReplacePlugin = require("string-replace-webpack-plugin");
-// const ClosurePlugin = require('closure-webpack-plugin');
 
 module.exports = {
   mode: 'production',
