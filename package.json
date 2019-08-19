@@ -27,7 +27,8 @@
     "jsdoc": "^3.6.2",
     "qunit": "^2.9.2",
     "webpack": "^4.34.0",
-    "webpack-dev-server": "^3.7.0"
+    "webpack-dev-server": "^3.7.0",
+    "lodash": ">=4.17.13"
   },
   "scripts": {
     "test": "qunit",
