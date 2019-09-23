@@ -1,5 +1,9 @@
 # Faze
 
+[![BrowserStack](https://github.com/tomkiernan120/Faze/blob/master/Browserstack-logo%402x.png)](https://www.browserstack.com/)
+
+Happy to be sponsored by browserstack, we used browserstack to test the Faze framework on multiple machines and multiple browsers making sure faze is cross compatible. We are also looking to use Browserstacks powerful automation testing tools.
+
 ## Contributors wanted!!!
 
 Actively looking for contributors, really want to make this a helpful and learning experience, please help improve this documentation and code, and really make it clear to possible new comers what we are updating and why. So new contributors can really improve their open source skills and also confidence. Thanks!
